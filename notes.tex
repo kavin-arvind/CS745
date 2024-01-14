@@ -1,6 +1,6 @@
 \documentclass[english, 11pt]{article}
-\usepackage[T1]{fontenc}
-\usepackage[latin9]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage[latin9]{inputenc}
 \usepackage[top = 2cm, left = 2.5cm, right = 2.5cm, bottom = 2cm]{geometry}
 \usepackage{enumitem}
 \usepackage{amsmath}
@@ -47,6 +47,27 @@
 
 }
 
-\section{Section title}
+\section{Shifted cipher}
+Each letter is Shifted by $k$ and sent. Eg- "A" is written as "A"+k (Shifted by k letters) and sent. \\
+This is easy to decode as only 26 ( or 36 (if 0-9 nos are included)) possible $k$ are there and thus its easy to check each possibility.
+
+\section{Rolling by wooden stick}
+A paper is rolled on to a stick and text is written. If seen normally, the letters would look fully shuffled, but if its rolled in the same way as it was written, it can be decoded.\\
+eg- "MY NAME IS X" is written like
+\begin{figure}[ht]
+    \centering
+        \begin{tabular}{ccccccccc}
+            M &   &   &   & M &   &   &   & X\\
+              & Y &   & A &   & E &   & S &  \\
+              &   & N &   &   &   & I &   &  \\
+        \end{tabular}
+\end{figure}
+\\
+Thus its crypted as MMXYAESNI.
+
+\section{Substitution cipher}
+We have a table where each letter is mapped to other letters and text is ciphered according to that. Here, we have here $26!$ ways of mapping and so its very difficult to try different possibilities. \\
+This seems like an optimal solution, but there is a problem. In an average english text, each letter has a specific frequency of repetition. \\
+Say letter "A" is coded to letter "K" (randomly). So frequency of letter K would be same as of the letter "A" in a normal text. So by this way, cipher text could possibly be decrypted.
 
 \end{document}
