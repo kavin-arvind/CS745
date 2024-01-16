@@ -35,7 +35,7 @@
 
 \begin{document}
 
-\textbf{CS 745 : Principles of Data and System Security} \hfill DATE
+\textbf{CS 745 : Principles of Data and System Security} \hfill
 \textit{Scribed by}: Kavin Arvind
 
 \noindent\tbox{
@@ -65,9 +65,91 @@ eg- "MY NAME IS X" is written like
 \\
 Thus its crypted as MMXYAESNI.
 
-\section{Substitution cipher}
+\section{Mono-Substitution cipher}
 We have a table where each letter is mapped to other letters and text is ciphered according to that. Here, we have here $26!$ ways of mapping and so its very difficult to try different possibilities. \\
 This seems like an optimal solution, but there is a problem. In an average english text, each letter has a specific frequency of repetition. \\
 Say letter "A" is coded to letter "K" (randomly). So frequency of letter K would be same as of the letter "A" in a normal text. So by this way, cipher text could possibly be decrypted.
+
+\clearpage
+\noindent\tbox{
+
+\begin{center}
+  \huge Lecture - 02 \\ % change lecture number
+  \Large Topic:  History of Cryptography(Continuation.)
+\end{center}
+
+}
+
+\section{Homophonic Cipher}
+The main problem of Mono-Substitution cipher is that, a character was substituted with only one alphabet and so the frequency didn't change.\\
+What if its substituted with many characters to equalize the frequencies? \\
+Say $S = \{A,B,..Z,0,1,..9,\epsilon, \alpha, \beta, \gamma, ...\}$ has usable symbols. \\
+Say letter "A" has frequency $x\%$. We allot $\frac{x}{100} \times |S|$ number of symbols and are randomly substituted in the cipher text in place of "A".
+This uniforms/balences the frequency among all the symbols and hence difficult to decrypt by frequency method. \\
+But here, storing the mapping, encrypting, and decrypting are difficult.
+
+\section{Vigenere's Cipher}
+
+What if we substitute "A" by any of the letters strategically? Vigenere created a table as shown below.
+
+\begin{figure}[ht]
+  \centering
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+          \hline
+            & A & B & C & D & ..\\
+          \hline
+          A & B & C & D & E & ..\\
+          B & C & D & E & F & ..\\
+          . &   &   &   &   &   \\
+          . &   &   &   &   &   \\
+          \hline
+      \end{tabular}
+\end{figure}
+A keyword is chosen and correspondingly added to the text encrypt it. Eg -
+\begin{figure}[ht]
+  \centering
+      \begin{tabular}{|c|ccccccccc|}
+          \hline
+          Actual text & M & Y & N & A & M & E & I & S & X \\
+          keyword     & R & O & S & E & R & O & S & E & R \\
+          \hline
+          Cipher      & .. &   &   & F &   &   &   &   & \\
+          \hline
+      \end{tabular}
+\end{figure}
+Thus here, according to the position, same letter is encrypted to different letters and thus the frequencies are balenced.\\
+Is it a good method then? \\
+Words like "THE", "IS", etc repeat so much in english that its very likely that it is encrypted to the same cipher text due to same relative position w.r.t keyword. Calculating the repeated strings in ciphertext and observing the distance between them will give insigts about the length of keyword.
+Length of keyword would be a factor of those distances and can be found out(say $l$). Now, characters $1,1+l,1+2l,..$ are derived from same column of the table. Hence they are like monostituted and now, frequencies can be calculated out to find the keyletters and hence keyword.
+
+\section{Mordern Cryptography}
+\subsection{Shannon's Cipher}
+$\xi = (E,D)$ is a cipher system where $E(m,k) = c$($m$ is message, $k$ is key, $c$ is cipher text) is encyption funtion, and $D(c,k) = m$ is decryption funtion.
+
+\subsection{One Time Pad}
+Say $m^l$ is a message of bits of length $l$, and key $k^l$ is key of same length generated randomly.
+\[ E(m,k)= m^l \oplus k^l = c \]
+\begin{align*}
+  D(c,k) &= c^l \oplus k^l \\
+  &= m^l \oplus k^l \oplus k^l \\
+  &= m^l \\
+\end{align*}
+Provided key is generated completely random, and no part of key is known to Evasdropper, they can't decrypt it as probability of $c$ being 0 or 1 is independent of message itself. I.e,
+\[ Prob(cipher = c | msg = m) = Prob(cipher = c | msg = m') \]
+Hence, it is safe.
+Disadvantages:
+\begin{itemize}
+  \item key is as big as message(or more)
+  \item key should be sent safely. Otherwise its easily decrypted.
+\end{itemize}
+If key length is more, either its padded at the end and xored, or key is taken till the length of message and xored. \\
+In general, if its not a bit string, the encryption can be taken as sum modulus like:
+\[ E(m,k)= m^l + k^l \pmod{n} = c \text{  (if n=2, its just xor)} \]
+\begin{align*}
+  D(c,k) &= c^l - k^l \pmod{n} \\
+  &= m^l + k^l - k^l \pmod{n}\\
+  &= m^l \pmod{n}\\
+\end{align*}
+
 
 \end{document}
