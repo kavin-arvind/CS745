@@ -226,4 +226,144 @@ Conditonal entropy of X, given Y is:
   &= \sum_{Y} P(y) \sum_{X} P(x) \log_{2}(\frac{1}{P_y(x)}) \\
 \end{align*}
 If $C$ is the cipher text, and if $ H_C(M) \approx 0 $, then its easily breakable as it is not that uncertain.
+
+\clearpage
+\noindent\tbox{
+
+\begin{center}
+  \huge Lecture - 04 \\ % change lecture number
+  \Large Topic: Key distributions
+\end{center}
+
+}
+
+\section*{Symmetric Key Cryptography}
+The methods we have seen so far including Substitution cipher, OTP, etc, are Symmetric key Cryptography as both the sender and receiver needs the same key to encrypt and decrypt the message. Here, the main difficulty was to exchage keys between both parties safely.\\
+Its two types are \textbf{Stream Cipher} and \textbf{Block cipher} which we'll see later.
+
+\section*{Assymetric key Cryptography}
+
+Here, a pair of Keys $E_k$ and $D_k$ are created by a party which are related to each other in some sense.\\
+
+\subsection*{Method 1: Secrecy Ensured}
+Lets say, person $A$ wants to send a message to person $B$. Now, person $B$ created the pair of keys $E_B$ and $D_B$ and sends $E_B$ publically.
+So, now $A$ encrypts message $m$ using $E_B$ to send cipher $c$.\\
+Here, since $D_B$ is known only by person $B$, just $B$ can decrypt it and no one else. Thus here, secracy is ensured. But, cipher $c$ can be tapped and some other message $m'$ can be encrypted to $c'$ using public key $E_B$ by an Evasdropper and sent. So, here, authenticity is not ensured.
+
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[anchor=east] at (0,0) {m};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box1) at (2,0) {$E_B$};
+    \node[anchor=east] at (3,-1) {$E_B(m)$};
+    \node[anchor=west] at (8,0) {c};
+
+    % Arrows
+    \draw[->, thick] (0.5,0) -- (box1.west);
+    \draw[->, thick] (box1.east) -- (6.5,0);
+
+    % Second set of text and boxes
+    \node[anchor=east] at (7,0) {c};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box4) at (13,0) {$D_B$};
+    \node[anchor=east] at (14,-1) {$D_B(E_B(m)) = m$};
+    \node[anchor=west] at (15,0) {m};
+
+    % Arrows
+    \draw[->, thick] (8.5,0) -- (box4.west);
+    \draw[->, thick] (box4.east) -- (14.5,0);
+
+\end{tikzpicture}
+
+
+  \centering   
+\end{figure}
+
+\subsection*{Method 2: Authenticity Ensured}
+Lets say, person $A$ wants to send a message to person $B$. Now, person $A$ created the pair of keys $E_A$ and $D_A$ and sends $E_A$ publically.
+So, now $A$ encrypts message $m$ using $D_A$ to send cipher $c$.\\S
+Here, since $E_A$ is known by everyone including $B$, he can decrypt it using $E_A$. Thus here, authenticity is ensured as $D_A$ is private to person $A$ and only he/she can encrypt it. But, cipher $c$ can be decrypted by littrally everyone as $E_A$ is known publically. So security is not ensured.
+
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[anchor=east] at (0,0) {m};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box1) at (2,0) {$D_A$};
+    \node[anchor=east] at (3,-1) {$D_A(m)$};
+    \node[anchor=west] at (8,0) {c};
+
+    % Arrows
+    \draw[->, thick] (0.5,0) -- (box1.west);
+    \draw[->, thick] (box1.east) -- (6.5,0);
+
+    % Second set of text and boxes
+    \node[anchor=east] at (7,0) {c};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box4) at (13,0) {$E_A$};
+    \node[anchor=east] at (14,-1) {$E_A(D_A(m)) = m$};
+    \node[anchor=west] at (15,0) {m};
+
+    % Arrows
+    \draw[->, thick] (8.5,0) -- (box4.west);
+    \draw[->, thick] (box4.east) -- (14.5,0);
+
+\end{tikzpicture}
+
+
+  \centering   
+\end{figure}
+
+\subsection*{Method 3: Both Ensured}
+What if we combine both the above methods to ensure both..\\
+Lets say, person $A$ wants to send a message to person $B$.\\
+Both of them creates pairs of keys $E_A$, $D_A$ and $E_B$, $D_B$ (and, $E_B$, $E_A$ are public).
+
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[anchor=east] at (0,0) {m};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box1) at (2,0) {$D_A$};
+    \node[anchor=east] at (3,-1) {$D_A(m)$};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box2) at (5,0) {$E_B$};
+    \node[anchor=east] at (6,-1) {$E_B(D_A(m))$};
+    \node[anchor=west] at (8,0) {c};
+
+    % Arrows
+    \draw[->, thick] (0.5,0) -- (box1.west);
+    \draw[->, thick] (box2.east) -- (6.5,0);
+
+    % Second set of text and boxes
+    \node[anchor=east] at (7,0) {c};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box3) at (10,0) {$D_B$};
+    \node[anchor=east] at (12,-1) {$D_B(E_B(D_A(m)))$};
+    \node[anchor=east] at (11,-2) {$ = D_A(m)$};
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box4) at (13,0) {$E_A$};
+    \node[anchor=east] at (16,-1) {$E_A(D_B(E_B(D_A(m))))$};
+    \node[anchor=east] at (15,-2) {$ = m$};
+    \node[anchor=west] at (15,0) {m};
+
+    % Arrows
+    \draw[->, thick] (8.5,0) -- (box3.west);
+    \draw[->, thick] (box4.east) -- (14.5,0);
+    \draw[->, thick] (box1.east) -- (box2.west);
+    \draw[->, thick] (box3.east) -- (box4.west);
+
+\end{tikzpicture}
+
+
+  \centering   
+\end{figure}
+This suffices both authenticity and secracy. Here, its noteworthy that algorithm is known by everyone unlike the historical methods and just that the keys are kept secret.
+
+\section*{Access Control}
+Eg- MAC, DAC, RBAC, ABAC, etc are algorithms/methods used to enable access control. Lets understand this with an eg: \\
+Lets say there is data stored in a database where only specific users can read and special users can edit it. Also, people should not be able to delete or scatter the information.
+So, readers and modifiers should have their own specific keys.
+
+\section*{Random Number Generation}
+Its of two types:
+\subsection*{True Random Number generator(TRNG)}
+This is based on actual random events such as some hardware that changes drastically with outside conditions. It is truely random and can't be predicted.
+
+\subsection*{Pseudo Random Number generator(PRNG)}
+This is done algorithmic and could be predicted based on its previous values.
+
 \end{document}
