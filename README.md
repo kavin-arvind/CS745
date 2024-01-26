@@ -3,9 +3,9 @@ Just an attempt to write notes for this course..
 Subjected to mistakes...
 
 ## Course Logistics
-Professor Virendra Singh
-Department of Computer Science & Engineering
-Department of Electrical Engineering
+Professor Virendra Singh  
+Department of Computer Science & Engineering  
+Department of Electrical Engineering  
 https://www.cse.iitb.ac.in/~viren/
 
 ### Course Schedule
