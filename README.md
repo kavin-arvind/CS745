@@ -29,7 +29,7 @@ LA 001 - Slot 12 :
 * [BONUS] Class notes (5%)
 
 ### Absolute Grading!
-- > 90: AA
+- \> 90: AA
 - 81 – 90: AB
 - 71 – 80: BB
 - 61 – 70: BC
