@@ -1047,8 +1047,91 @@ private info - d,p,q \\
 public info - e,N
 \begin{itemize}
   \item[encrypt:] $c = m^e \pmod{n}$
-  \item[decrypt:] $c^d \pmod{n} = (m^e)^d \pmod{n} = m^{ed} \pmod{n} = m$ 
+  \item[decrypt:] 
+  \begin{align*}
+    c^d \pmod{n} &= (m^e)^d \pmod{n} \\
+    &= m^{ed} \pmod{n} \\
+    &= m^{q\phi(n) + 1} \pmod{n} \\
+    &= m^{q\phi(n)}.m \pmod{n} \\
+    &= m \text{      ;fermat's little theorem}
+  \end{align*}
+  fermat's little theorem - $a^{\phi(n)} \pmod{n} = a$.
 \end{itemize}
 Generally, Assymetric key is computationally very expensive and thus very difficult to send the entire message through Assymetric method. Thus, keys of Symmetric key method are sent using Assymetric method and messages are sent with Symmetric key encryption henceforth.
+
+\clearpage
+\noindent\tbox{
+\begin{center}  
+    \huge Lecture - 08 \\
+    \Large Topic: RSA algorithm and Diffie–Hellman Key Exchange
+\end{center}
+}
+
+\section*{Breaking RSA}
+The main difficulty of breaking RSA algorithm lies in factorisation of $n$. As seen in previous lecture, if we could find $p$ and $q$ from $n$, then $\phi(n)$ can be found out. Using $e$ (Public key), $d$ can be found and thus could be decrypted by any Eavesdropper.
+Thus factorisation is the only difficulty here.. In fact, such a factorisation is an open problem, if factorised, awards are awaiting.. See \href{https://en.wikipedia.org/wiki/RSA_Factoring_Challenge}{link}
+
+\section*{Diffie–Hellman Key Exchange}
+Decide on prime number $p$ and a primive root $\alpha$(Primive root will be explained later. For now, assume its a number from 1 to $p-1$). Both these are public info.
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (A) at (0,0) {
+      \begin{minipage}{7cm}
+        A chooses a private key $a$ from {2,3,..,$p-2$}\\ (Later would be explained why 1 and $p-1$ are not included.) \\
+        Calculate public key $A = \alpha^a \pmod{p}$
+        Send $A$ \\ \\ \\
+        Recieve $B$.\\
+        $K_{AB} = B^{a} \pmod{p} = \alpha^{ab} \pmod{p}$
+      \end{minipage}
+    };
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (B) at (10,0) {
+      \begin{minipage}{7cm}
+        A chooses a private key $b$ from {2,3,..,$p-2$}\\ (Later would be explained why 1 and $p-1$ are not included.) \\
+        Calculate public key $B = \alpha^b \pmod{p}$
+        Send $B$ \\ \\ \\
+        Recieve $A$.\\
+        $K_{AB} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$
+      \end{minipage}
+    };
+
+    % \draw[->, thick] (7,-4) -- (10, -7);
+    % \draw[->, thick] (10, -4) -- (7,-7);
+
+\end{tikzpicture}
+
+\centering   
+\end{figure}
+
+Now, using $K_{AB}$, Symmetric Cryptography techniques can be applied to send long messages.
+
+\section*{Breaking DHP(Diffie–Hellman Problem)}
+Eavesdropper knows $\alpha, p, A, B$. The only unknown things are $a,b$.\\
+\begin{align*}
+  A &= \alpha^{a} \pmod{p} \\
+  a &= log_{\alpha}^{A} \pmod{p} \\
+\end{align*}
+Solving this Discrete Logarithm Problem(DLP) is computationally very hard.
+
+\subsection*{Group Theory}
+A group is a set of elements and an operator * such that it follows the following properties:
+\begin{itemize}
+  \item Closure property: if $a,b \in G, a * b = c \in G$
+  \item Associativity
+  \item existance of neutral element(identity element)
+  \item existance of inverse element
+\end{itemize}
+(Commutativity is not necessary but if there, its called an abelian group)
+
+\section*{How to choose $\alpha$}
+Here, lets define a group $\mathbb{Z}^{*}_{p} = {i: i \in {0,1,..,p-1}, gcd(i,p) = 1}$ with operator as multiplication in $\pmod{p}$.\\
+If p is a prime number, then $\mathbb{Z}^{*}_{p} = {i: i \in {1,..,p-1}, gcd(i,p) = 1}$ \\
+Euler's function, $\phi(p) = |\mathbb{Z}^{*}_{p} = p-1|$ for a prime number. \\
+Fermat's little theorem states that, $a^{\phi(n)} \pmod{n} = a$ for any n. So here,
+$\alpha^{\phi(p)} \pmod{p} = \alpha^{p-1} \pmod{p} = 1$ \\
+i.e, on powering $\alpha$ repeats in a cycle of length, a factor of $\phi(p) = p-1$.
+If the length is exactly $p-1$, we say its a primitive root of p.
+We want the length to be as long as possible to maximise randomness, and number of possiblities of $\alpha^n$.\\
+Eg - in $\mathbb{Z}^{*}_{11}$, 2 is a primitive root whereas, 3 is not.. 3 has a cycle of 5, and 2 has a cycle of 10 (= 11-1). Try it out.
 
 \end{document}
