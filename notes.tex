@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{caption}
+\usepackage{multicol}
 % \usepackage{bbm}
 \makeatletter
 \@ifundefined{date}{}{\date{}}
@@ -1133,5 +1134,37 @@ i.e, on powering $\alpha$ repeats in a cycle of length, a factor of $\phi(p) = p
 If the length is exactly $p-1$, we say its a primitive root of p.
 We want the length to be as long as possible to maximise randomness, and number of possiblities of $\alpha^n$.\\
 Eg - in $\mathbb{Z}^{*}_{11}$, 2 is a primitive root whereas, 3 is not.. 3 has a cycle of 5, and 2 has a cycle of 10 (= 11-1). Try it out.
+
+\clearpage
+% Lecture 9 on 09 - 02 - 2024
+\noindent\tbox{
+\begin{center}  
+    \huge Lecture - 09 \\
+    \Large Topic: Diffie-Hellman Key Exchange Protocol (DHD), Elgamal
+\end{center}
+}
+
+\section*{Diffie-Hellman Key Exchange}
+Say there are two parties A and B that want to communicate: \\
+Public info : p, $\alpha$ \\
+\begin{multicols}{2}
+Party A \\
+$K_{private(A)} = a \in {2,3,...,p-2}$ \\ 
+$K_{public(A)} = A = \alpha^{a}\pmod{p}$ \\ 
+\columnbreak \\
+Party B \\
+$K_{private(B)} = b \in {2,3,...,p-2}$ \\ 
+$K_{public(B)} = B = \alpha^{b}\pmod{p}$ \\ 
+\end{multicols}
+
+\begin{alignat*}{2}
+&\xrightarrow[\hspace{1cm}]{\text{A}} K_{AB} = A^{b} \pmod{p} \\
+&\quad\quad\quad =\alpha^{ab}\pmod{p} \\ 
+K_{AB} = B^{a} \pmod{p} &\xleftarrow[\hspace{1cm}]{\text{B}} \\
+=\alpha^{ab}\pmod{p} \\ 
+c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} \\
+\end{alignat*}
+
+\section*{Elgamal(1985)}
 
 \end{document}
