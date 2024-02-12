@@ -1167,4 +1167,53 @@ c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} 
 
 \section*{Elgamal(1985)}
 
+\clearpage
+% Lecture 10 on 12 - 02 - 2024
+\noindent\tbox{
+\begin{center}  
+    \huge Lecture - 10 \\
+    \Large Topic: Access Contol
+\end{center}
+}
+
+\section*{Security Objective(CIA)}
+\begin{itemize}
+  \item Confidentiality is reqd. Encryption using a key ensures confidentiality in fact as they can be decrypted only people with the key.
+  \item \textbf{Integrity:} Message shold not be tampered in between. We should be able to identify if its tampered or not.
+  \item \textbf{Message Authentication:} It should be provable that only the intended sender sent the message and no one else.
+  \item \textbf{Non-repudiation:} If someone sent a message, later it can be proved that none other than him/her sent it. Eg- signature. Like if signed, later they cannot deny that they didn't send it.
+  \item \textbf{Access Control:} Who all can read the message, who all can modify it, etc should be able to be controled.
+\end{itemize}
+
+\section*{Digital Signatures}
+Similar to normal Signatures but are done on digital documents. It provides the above parameters including authentication and non-repudiation.
+\subsection*{How to create digital signatures?}
+Say a document carrying message $m$ is there and signature $s$. Message and signature are from "Message space" and "Signature space" resp (basically superset of messages and signatures).
+Person $A$ is the owner and $B$ checks the signature. \\
+$B$ calculates the sign of the document using key $k$ i.e, $Sig(m)$ and checks if its same as $S$ or not. If its same, then signature is verified and otherwise no.\\
+If its document is tampered, calculated signature won't be same and could be identified that its tampered.\\
+But this does not ensure Non-repudiation as anyone can find $Sig(m)$.\\ \\
+To include Non-repudiation, Assymetric Key distribution can be used, where private key is used to find $S$ and it can only be verified by public key and signature cannot be calculated by it.
+
+\section*{Digital Signature using RSA}
+\textbf{Private info(i.e owner):} $d$, $p$, $q$, $n = pq$, signature $S = m^d \pmod{n}$. Now, $e = d^{-1} \pmod{\phi(n)}$, $n$, and $S$ are sent \\ \\
+\textbf{Public info(i.e verifier):} $m$ ,$n$ , $S$, $e$. \\ $S^{e} \pmod{n}$ is calculated and if its equal to $m$, then its verified and not verified otherwise. \\
+
+\textbf{What does attacker wants to do?:} \\
+Message is known to everyone(like everyone knows A send 1000 rs to C), but what an attacker wants to do is that, he wants to change the message to $m'$ (say change 1000 to 10000 rs). Now, to calculate signature $S'$, $d$ is required. Say he made up some random $d$.
+TO BE done \\
+
+\section*{Digital Signatures using Elgamal}
+
+\begin{itemize}
+  \item Setup Phase: $p,\alpha$ are choosed and are available publically
+  \item Person $B$ chooses $d$ from ${2,..,p-2}$ and $K_{pub} = \beta = \alpha^d \pmod{p}$ is calculated and sent. This is called Long Term Public Key.
+  \item Ephimeral key $K_E$ chosen from ${2,..,p-2}$ such that $gcd(K_E,p-1) = 1$.
+  \item Signature is calculated. like $r = \alpha^{K_E} \pmod{p}$ and $s = m-d.r \pmod{p}$. The pair $(r,s)$ is the signature.
+  \item \textbf{Verification:} is $m$ same as $(\beta^r.\alpha^s) \pmod{p}$? If yes, its verified.
+\end{itemize}
+
+\subsection*{Disadvantage}
+The signature size is double the size of RSA as we are sending both $r$ and $s$ as signatures.
+
 \end{document}
