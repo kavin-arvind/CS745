@@ -1134,6 +1134,10 @@ i.e, on powering $\alpha$ repeats in a cycle of length, a factor of $\phi(p) = p
 If the length is exactly $p-1$, we say its a primitive root of p.
 We want the length to be as long as possible to maximise randomness, and number of possiblities of $\alpha^n$.\\
 Eg - in $\mathbb{Z}^{*}_{11}$, 2 is a primitive root whereas, 3 is not.. 3 has a cycle of 5, and 2 has a cycle of 10 (= 11-1). Try it out.
+\\ \\ \\
+Why are $a$ and $b$ chosen from {2,3,..,$p-2$}, i.e, 1 and $p-1$ are ignored?\\
+\textbf{If a = 1}, $A = \alpha^1 \pmod{p} = \alpha$. Since $A$ and $\alpha$ are known, its easily seen that they're equal and so $a=1$ can be found. Then, $K_{AB} = B^a = B$ simply. Thus key get knowned.\\
+\textbf{If a = p-1}, $A = \alpha^{p-1} \pmod{p} = 1$(Fermat's little theorem). Since $A=1$, its easily seen that they're equal and so $a=p-1$ can be found, provided $\alpha$ is a primitve root. Otherwise, $a$ will be a factor of $p-1$ which also could be found easily ig.. Then, $K_{AB} = B^a$ simply. Thus key get knowned.\\
 
 \clearpage
 % Lecture 9 on 09 - 02 - 2024
@@ -1172,7 +1176,7 @@ c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} 
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 10 \\
-    \Large Topic: Access Contol
+    \Large Topic: Digital Signatures
 \end{center}
 }
 
@@ -1201,7 +1205,7 @@ To include Non-repudiation, Assymetric Key distribution can be used, where priva
 
 \textbf{What does attacker wants to do?:} \\
 Message is known to everyone(like everyone knows A send 1000 rs to C), but what an attacker wants to do is that, he wants to change the message to $m'$ (say change 1000 to 10000 rs). Now, to calculate signature $S'$, $d$ is required. Say he made up some random $d$.
-TO BE done \\
+Since, $\phi(n)$ is unknown, $e$ cannot be calculated, and thus $e$ can't be send.
 
 \section*{Digital Signatures using Elgamal}
 
@@ -1210,8 +1214,17 @@ TO BE done \\
   \item Person $B$ chooses $d$ from ${2,..,p-2}$ and $K_{pub} = \beta = \alpha^d \pmod{p}$ is calculated and sent. This is called Long Term Public Key.
   \item Ephimeral key $K_E$ chosen from ${2,..,p-2}$ such that $gcd(K_E,p-1) = 1$.
   \item Signature is calculated. like $r = \alpha^{K_E} \pmod{p}$ and $s = m-d.r \pmod{p}$. The pair $(r,s)$ is the signature.
-  \item \textbf{Verification:} is $m$ same as $(\beta^r.\alpha^s) \pmod{p}$? If yes, its verified.
+  \item \textbf{Verification:} is $m$ same as $\beta^r.\alpha^s \pmod{p}$? If yes, its verified.
 \end{itemize}
+
+\subsection*{Correctness}
+\begin{align*}
+  \beta^r.\alpha^s \pmod{p} &= \beta^r.\alpha^{m-d.r} \pmod{p} \\
+  &= \alpha^{d.r}.\alpha^{m-d.r} \pmod{p} \\
+  &= \alpha^{m} \pmod{p}
+\end{align*}
+/* seems there is some mistake in Sir's method */ \\
+Not Sure of the method.
 
 \subsection*{Disadvantage}
 The signature size is double the size of RSA as we are sending both $r$ and $s$ as signatures.
