@@ -1176,7 +1176,7 @@ c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} 
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 10 \\
-    \Large Topic: Digital Signatures
+    \Large Topic: Digital Signatures - RSA
 \end{center}
 }
 
@@ -1209,13 +1209,33 @@ Since, $\phi(n)$ is unknown, $e$ cannot be calculated, and thus $e$ can't be sen
 
 \section*{Digital Signatures using Elgamal}
 
-\begin{itemize}
-  \item Setup Phase: $p,\alpha$ are choosed and are available publically
-  \item Person $B$ chooses $d$ from ${2,..,p-2}$ and $K_{pub} = \beta = \alpha^d \pmod{p}$ is calculated and sent. This is called Long Term Public Key.
-  \item Ephimeral key $K_E$ chosen from ${2,..,p-2}$ such that $gcd(K_E,p-1) = 1$.
-  \item Signature is calculated. like $r = \alpha^{K_E} \pmod{p}$ and $s = m-d.r \pmod{p}$. The pair $(r,s)$ is the signature.
-  \item \textbf{Verification:} is $m$ same as $\beta^r.\alpha^s \pmod{p}$? If yes, its verified.
-\end{itemize}
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[draw, rectangle, minimum width=10cm, minimum height=1cm] (A) at (0,0) {
+      \begin{minipage}{10cm}
+        \begin{itemize}
+          \item Setup Phase: $p,\alpha$ are choosed and are available publically
+          \item Owner chooses $d$ from \{2,..,$p-2$\} and $K_{pub} = \beta = \alpha^d \pmod{p}$ is calculated and sent. This is called Long Term Public Key. This is not changed for every message the owner sends. Its maintained across all the messages he/she sends.
+          \item Ephimeral key $K_E$ chosen from \{2,..,$p-2$\} such that $gcd(K_E,p-1) = 1$. Ephimeral keys are generated newly for each message the owner sends.
+          \item Signature is calculated. like $r = \alpha^{K_E} \pmod{p}$ and $s = m-d.r \pmod{p}$. The pair $(r,s)$ is the signature.
+        \end{itemize}
+      \end{minipage}
+    };
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm] (B) at (10,0) {
+      \begin{minipage}{5cm}
+        Known info - $p, \alpha$, Public key $\beta$, message $m$, signature $(r,s)$.\\
+        \textbf{Verification:} is $\alpha^m \pmod{p}$ same as $\beta^r.\alpha^s \pmod{p}$? If yes, its verified.
+      \end{minipage}
+    };
+
+    % \draw[->, thick] (7,-4) -- (10, -7);
+    % \draw[->, thick] (10, -4) -- (7,-7);
+
+\end{tikzpicture}
+
+\centering   
+\end{figure}
 
 \subsection*{Correctness}
 \begin{align*}
@@ -1223,8 +1243,8 @@ Since, $\phi(n)$ is unknown, $e$ cannot be calculated, and thus $e$ can't be sen
   &= \alpha^{d.r}.\alpha^{m-d.r} \pmod{p} \\
   &= \alpha^{m} \pmod{p}
 \end{align*}
-\it{seems there is some mistake in Sir's method}\\
-Not Sure of the method.
+Now, if someone wants to tamper the message, say they wants to create signature of the owner of different message $m'$.\\
+$r = \alpha^{K_E}$ can be calculated by choosing some random $K_E$. But to calculate $s$, $d$ is required which can't be solved from the eqation $\beta = \alpha^d \pmod{p}$ due to discrete logarithmic problem.
 
 \subsection*{Disadvantage}
 The signature size is double the size of RSA as we are sending both $r$ and $s$ as signatures.
@@ -1234,80 +1254,89 @@ The signature size is double the size of RSA as we are sending both $r$ and $s$ 
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 11 \\
-    \Large Topic: Digital Signatures - Elgamal
+    \Large Topic: Digital Signatures Algorithm
 \end{center}
 }
 
-\section*{Digital Signatures - Elgamal}
-A wants to send a message to B. A chooses 
-\begin{itemize}
-  \item p, $\alpha$, 
-  \item $K_{pr} = d \in \{2,3,...,p-2\}$.
-  \item $K_{pub} = \beta = \alpha^{d} mod p$ ($\beta$ - long term key)
-  \item p, $\alpha$, $\beta$ are sent to B
-  \item Ephimeral key $K_{E} = d \in \{2,3,...,p-2\}$.
-  \item Signature : \\
-  r = $\alpha^{K_{E}} mod p$ \\
-  S = (m - d.r)$K_{E}^{-1} \mod p$
-  \item m,(r,S) sent to B
-\end{itemize}
-B :
-\begin{itemize}
-  \item $t = \beta^{r}.r^{S} mod p$
-  $t = \alpha^{d.r}.\alpha^{K_{E}(m-d.r)K_{E}^{-1}} mod p$
-  $t = \alpha^{m} mod p$ (=valid) 
-\end{itemize}
+\section*{Digital Signature Algorithm}
+This is currently widely used methof for Digit Signatures. This algorithm reduces the size of the signature from 2048 to 320 bits and 4096 to 422 bits as compared to Elgamal method.\\
 
-\section*{Digital Signature algorithm}
-Digit Signature algorithm reduces the size of the signature from \\
-\begin{itemize}
-  \item 2048 to 320
-  \item 4096 to 422
-\end{itemize}
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[draw, rectangle, minimum width=10cm, minimum height=1cm] (A) at (0,0) {
+      \begin{minipage}{10cm}
+        \begin{itemize}
+          \item Choose $p$ s.t. $2^{1023}<p<2^{1024}$
+          \item Choose $q$, a factor of $\phi(p) = p-1$ s.t. $2^{159}<p<2^{160}$
+          \item Choose $\alpha$ s.t. $ord(Z_{p}) = q$. \\ i.e, $\alpha$ is the generator of a subgroup of $\mathbb{Z}^*_p$ of order $q$. \\ In other words, there exists a subgroup of $\mathbb{Z}^*_p$ such that $\{ e : e^q = 1 \pmod{p} \} $ and $\alpha$ is the primitive root of the subgroup. We'll discuss this in detail later.
+          \item $K_{pr} = d \in \{0,1,2,3,...,q-1\}$.
+          \item Choose $K_{pub} = \beta = \alpha^{d} \pmod{q}$
+          \item Public parameters transfered to B are : $K_{pub} = \beta$, $p$, $q$ ,$\alpha$
+          \item Ephimeral key $K_{E} \in \{0,1,...,q-1\}$.
+          \item Signature : \\
+          $r = \alpha^{K_{E}} \pmod{q}$ \\
+          $s = (SHA(m)+dr) K_{E}^{-1} \pmod{q}$ \\ Assume SHA to be a funtion which converts any message to a 64 bit value. We'll discuss this later.
+          \item SHA(m),(r,s) sent to B.
+        \end{itemize}
+      \end{minipage}
+    };
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm] (B) at (10,0) {
+      \begin{minipage}{7cm}
+        \begin{itemize}
+          \item Verification
+          \item Compute \\
+          $w = S^{-1} \pmod{q}$ \\
+          $\mu_{1} = w.SHA(m) \pmod{q}$ \\
+          $\mu_{2} = w.r \pmod{q}$ \\
+          $v = (\alpha^{\mu_{1}}.\beta^{\mu_{2}} \pmod{p}) \pmod{q}$ \\
+          \item If $v \equiv r$, then the signature is valid. Else invalid
+        \end{itemize}
+      \end{minipage}
+    };
 
-A:
-\begin{itemize}
-  \item Choose p s.t. $2^{1023}<p<2^{1024}$
-  \item Choose q, a factor of p-1 s.t. $2^{159}<p<2^{160}$
-  \item Choose $\alpha$ s.t. $ord(Z_{p}) = q$
-  \item $K_{pr} = d \in \{0,1,2,3,...,q-1\}$.
-  \item Choose $K_{pub} = \beta = \alpha^{d} mod q$
-  \item Public parameters transfered to B are : $K_{pub}$ = p,q,$\alpha,\beta$ %%%%%%%
-  \item Ephimeral key $K_{E} \in \{0,1,...,q-1\}$.
-  \item Signature : \\
-  r = $\alpha^{K_{E}} mod q$ \\
-  S = $(SHA(m)-dr) K_{E}^{-1} \mod q$
-  \item SHA(m),(r,S) sent to B. (Now the size of the signature is compressed)
-\end{itemize}
+    % \draw[->, thick] (7,-4) -- (10, -7);
+    % \draw[->, thick] (10, -4) -- (7,-7);
 
-B:
-\begin{itemize}
-  \item Verify (SHA(m),(r,S)) = ?
-  \item Compute 
-  $w = S^{-1} mod q$
-  $\mu_{1} = w.SHA(m) mod q$
-  $\mu_{2} = w.r mod q$
-  $v = (\alpha^{\mu_{1}}.\beta^{\mu_{2}} mod p) mod q$
-  \item If $v \equiv \alpha^{SHA(m)}$, then the signature is valid.
-  \item   $\mu_{1} = w.SHA(m) mod q$
-  $\mu_{1} = S^{-1}.SHA(m) mod q$
-  $lll^{ly} \quad \mu_{2} = S^{-1}.r mod q$
-\end{itemize}
+\end{tikzpicture}
 
-\[
-  r = \alpha^{K_{E}} mod q \\ 
-  S = \alpha^{(SHA(m)-d.r)K_{E}^{-1}} mod q \\
-  K_{E}.S = (SHA(m)-d.r) mod q \\
-  = (\alpha^{\mu_{1}}.\beta^{\mu_{2}} mod p) mod q \\
-  = \alpha^{w.SHA(m)}.\alpha^{d(w.r)} mod q \\
-  = \alpha^{w.SHA(m) + d(w.r)} mod q \\
-  = \alpha^{S^{-1}} \\
-  K_{E} = (SHA(m)-d.r).S^{-1} mod q \\
-  \alpha^{K_{E}} = \alpha^{(SHA(m)-d.r).S^{-1}} mod q \\
-  \alpha^{K_{E}} = (\alpha^{S^{-1}SHA(m)}.\alpha^{S^{-1}.d.r} mod p) mod q \\
-  \alpha^{K_{E}} = (\alpha^{S^{-1}(SHA(m) + d.r)} mod p) mod q \\
-  \alpha^{K_{E}} = \alpha^{\mu_(1)}.\beta^{\mu_{2}} mod q \\
-\]
+\centering   
+\end{figure}
 
+\subsection*{Correctness}
 
+\begin{align*}
+  s &= (SHA(m)+d.r) K_{E}^{-1} \pmod{q} \\
+  s.s^{-1}&= (SHA(m)+d.r) K_{E}^{-1} s^{-1} \pmod{q} \\
+  1 &= (SHA(m)+d.r) K_{E}^{-1} s^{-1} \pmod{q} \\
+  s^{-1}.(SHA(m)+d.r) &= K_E \pmod{q} \\
+\end{align*}
+So, $s^{-1}.(SHA(m)+d.r) = \theta q + K_E$.
+\begin{align*}
+  v &= \alpha^{s^{-1}SHA(m)} \beta^{s^{-1}r} \pmod{p} \pmod{q}\\
+  &= \alpha^{s^{-1}SHA(m)} \alpha^{s^{-1}r.d} \pmod{p} \pmod{q}\\
+  &= \alpha^{s^{-1}SHA(m)+s^{-1}r.d} \pmod{p} \pmod{q}\\
+  &= \alpha^{s^{-1}(SHA(m)+r.d)} \pmod{p} \pmod{q}\\
+  &= \alpha^{\theta q + K_E} \pmod{p} \pmod{q}\\
+  &= (\alpha^{q})^{\theta}.\alpha^{K_E} \pmod{p} \pmod{q}\\
+  &= \alpha^{K_E} \pmod{p} \pmod{q} \text{     [as $\alpha^q = 1 \pmod{p}$]}\\
+  &= \alpha^{K_E} \pmod{q} \\
+  &= r
+\end{align*}
+Here too, as $d$ is unknown signature can't be created by a random person other than the owner.
+
+\subsection*{Clearing some things}
+Subgroup of $\mathbb{Z}^*_p$ such that $\{ e : e^q = 1 \pmod{p} \} $ and $\alpha$ is the generator of the subgroup. Here, first notice that its a group on its own as the properties such as Closure, Associativity, etc exists.\\
+Does inverse element exist?\\
+We know that $e^{-1}$ exits in $\mathbb{Z}^*_p$. We just need to prove $e^{-1}$ is in the subset provided $e$ is in it.
+\begin{align*}
+  (e^{-1})^q &= x \pmod{p} \\
+  e^q . (e^{-1})^q &= e^q . x \pmod{p} \\
+  (e . e^{-1})^q &= 1 . x \pmod{p} \\
+  1 &= x \pmod{p} \\
+  x &= 1\\
+\end{align*}
+Thus proved $e^{-1}$ is in the subset. Thus proved that this subset is actually a group. \\
+So just choose a primitive root $\alpha$ from this subgroup. \\ \\
+SHA is a hashing funtion which creates any message to a 64 bit value. It hashes so widely such that, practically every message hashes to a different value. Though through pigeion hole principle, there will exist messages to hashing to same value mathematically, practically we can assume they hash to different values.
 \end{document}
