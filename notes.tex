@@ -1223,10 +1223,91 @@ Since, $\phi(n)$ is unknown, $e$ cannot be calculated, and thus $e$ can't be sen
   &= \alpha^{d.r}.\alpha^{m-d.r} \pmod{p} \\
   &= \alpha^{m} \pmod{p}
 \end{align*}
-/* seems there is some mistake in Sir's method */ \\
+\it{seems there is some mistake in Sir's method}\\
 Not Sure of the method.
 
 \subsection*{Disadvantage}
 The signature size is double the size of RSA as we are sending both $r$ and $s$ as signatures.
+
+\clearpage
+% Lecture 10 on 15 - 02 - 2024
+\noindent\tbox{
+\begin{center}  
+    \huge Lecture - 11 \\
+    \Large Topic: Digital Signatures - Elgamal
+\end{center}
+}
+
+\section*{Digital Signatures - Elgamal}
+A wants to send a message to B. A chooses 
+\begin{itemize}
+  \item p, $\alpha$, 
+  \item $K_{pr} = d \in \{2,3,...,p-2\}$.
+  \item $K_{pub} = \beta = \alpha^{d} mod p$ ($\beta$ - long term key)
+  \item p, $\alpha$, $\beta$ are sent to B
+  \item Ephimeral key $K_{E} = d \in \{2,3,...,p-2\}$.
+  \item Signature : \\
+  r = $\alpha^{K_{E}} mod p$ \\
+  S = (m - d.r)$K_{E}^{-1} \mod p$
+  \item m,(r,S) sent to B
+\end{itemize}
+B :
+\begin{itemize}
+  \item $t = \beta^{r}.r^{S} mod p$
+  $t = \alpha^{d.r}.\alpha^{K_{E}(m-d.r)K_{E}^{-1}} mod p$
+  $t = \alpha^{m} mod p$ (=valid) 
+\end{itemize}
+
+\section*{Digital Signature algorithm}
+Digit Signature algorithm reduces the size of the signature from \\
+\begin{itemize}
+  \item 2048 to 320
+  \item 4096 to 422
+\end{itemize}
+
+A:
+\begin{itemize}
+  \item Choose p s.t. $2^{1023}<p<2^{1024}$
+  \item Choose q, a factor of p-1 s.t. $2^{159}<p<2^{160}$
+  \item Choose $\alpha$ s.t. $ord(Z_{p}) = q$
+  \item $K_{pr} = d \in \{0,1,2,3,...,q-1\}$.
+  \item Choose $K_{pub} = \beta = \alpha^{d} mod q$
+  \item Public parameters transfered to B are : $K_{pub}$ = p,q,$\alpha,\beta$ %%%%%%%
+  \item Ephimeral key $K_{E} \in \{0,1,...,q-1\}$.
+  \item Signature : \\
+  r = $\alpha^{K_{E}} mod q$ \\
+  S = $(SHA(m)-dr) K_{E}^{-1} \mod q$
+  \item SHA(m),(r,S) sent to B. (Now the size of the signature is compressed)
+\end{itemize}
+
+B:
+\begin{itemize}
+  \item Verify (SHA(m),(r,S)) = ?
+  \item Compute 
+  $w = S^{-1} mod q$
+  $\mu_{1} = w.SHA(m) mod q$
+  $\mu_{2} = w.r mod q$
+  $v = (\alpha^{\mu_{1}}.\beta^{\mu_{2}} mod p) mod q$
+  \item If $v \equiv \alpha^{SHA(m)}$, then the signature is valid.
+  \item   $\mu_{1} = w.SHA(m) mod q$
+  $\mu_{1} = S^{-1}.SHA(m) mod q$
+  $lll^{ly} \quad \mu_{2} = S^{-1}.r mod q$
+\end{itemize}
+
+\[
+  r = \alpha^{K_{E}} mod q \\ 
+  S = \alpha^{(SHA(m)-d.r)K_{E}^{-1}} mod q \\
+  K_{E}.S = (SHA(m)-d.r) mod q \\
+  = (\alpha^{\mu_{1}}.\beta^{\mu_{2}} mod p) mod q \\
+  = \alpha^{w.SHA(m)}.\alpha^{d(w.r)} mod q \\
+  = \alpha^{w.SHA(m) + d(w.r)} mod q \\
+  = \alpha^{S^{-1}} \\
+  K_{E} = (SHA(m)-d.r).S^{-1} mod q \\
+  \alpha^{K_{E}} = \alpha^{(SHA(m)-d.r).S^{-1}} mod q \\
+  \alpha^{K_{E}} = (\alpha^{S^{-1}SHA(m)}.\alpha^{S^{-1}.d.r} mod p) mod q \\
+  \alpha^{K_{E}} = (\alpha^{S^{-1}(SHA(m) + d.r)} mod p) mod q \\
+  \alpha^{K_{E}} = \alpha^{\mu_(1)}.\beta^{\mu_{2}} mod q \\
+\]
+
 
 \end{document}
