@@ -1355,7 +1355,7 @@ First, hashing increases confusion in message, i.e, even if just a small change 
 
 \section*{Key Exchange}
 Two parties $A$ and $B$ wants to exchange key between them to use Symmetric Cryptography from then as Assymetric algorithm is computationally expensive to send the whole message.\\
-\textbf{Passive Evesdropping:} Listening on the common commutication channel between two parties.\\
+\textbf{Passive Evesdropping:} Just can listen on the common commutication channel between two parties and cannot send data.\\
 \subsection*{Active Evesdropping}
 Say an intruder is Active evesdropper, i.e, he/she can listen to the common communication channel and also write or transfer messages.\\
 Such an attack is called \textit{Man In The Middle} attack. Take example of DHKE between people $A$ and $B$. So, when $A=\alpha^{a}\pmod{p}$ and $B$ are transfered from each other, the intruder reads them, modify them as $A'$ and $B'$ and send to each other.\\
@@ -1365,10 +1365,10 @@ Such an attack is called \textit{Man In The Middle} attack. Take example of DHKE
     \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (A) at (0,0) {
       \begin{minipage}{5cm}
         A chooses a private key $a$ from {2,3,..,$p-2$} \\
-        Calculate public key $A = \alpha^a \pmod{p}$
+        Calculate public key $A = \alpha^a \pmod{p}$ \\
         Send $A$ \\ \\ \\
         Recieve $B'$.\\
-        $K_{AB'} = B'^{a} \pmod{p} = \alpha^{a r_1} \pmod{p}$
+        $K_{AB'} = B'^{a} \pmod{p} = \alpha^{a.r_1} \pmod{p}$
       \end{minipage}
     };
     \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (R) at (6,0) {
@@ -1377,22 +1377,21 @@ Such an attack is called \textit{Man In The Middle} attack. Take example of DHKE
         Calculate public key $A' = \alpha^{r_1} \pmod{p}$\\
         R chooses a private key $r_2$ from {2,3,..,$p-2$} \\
         Calculate public key $B' = \alpha^{r_2} \pmod{p}$ \\
-
         Send $A'$ to person B \\
         Send $B'$ to person A \\ \\ \\
         Recieve $A$.\\
         Recieve $B$.\\
-        $K_{AB'} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$ \\
-        $K_{A'B} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$ \\
+        $K_{AB'} = A^{a} \pmod{p} = \alpha^{a.r_1} \pmod{p}$ \\
+        $K_{A'B} = A^{a} \pmod{p} = \alpha^{a.r_2} \pmod{p}$ \\
       \end{minipage}
     };
     \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (B) at (12,0) {
       \begin{minipage}{5cm}
         A chooses a private key $b$ from {2,3,..,$p-2$} \\
-        Calculate public key $B = \alpha^b \pmod{p}$
+        Calculate public key $B = \alpha^b \pmod{p}$ \\
         Send $B$ \\ \\ \\
         Recieve $A'$.\\
-        $K_{A'B} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$
+        $K_{A'B} = A^{a} \pmod{p} = \alpha^{a.r_2} \pmod{p}$
       \end{minipage}
     };
 
@@ -1403,11 +1402,15 @@ Such an attack is called \textit{Man In The Middle} attack. Take example of DHKE
 
 \centering   
 \end{figure}
-Once, such a thing is done, the intruder can not only read the messages sent between them, but also can modify and send messages between them.\\
+\\
+Both the parties can't even identify that such an intruder is present in between. Person A assumes $B'$ was sent by actual person B and vice versa. Once, such a thing is done, the intruder can not only read the messages sent between them, but also can modify and send messages between them.\\
 Very similar attack is possible even in Elgamal. This problem arrises because, there is no authentication for any message. To resolve authentication, one may think we can use digital signatures. But, that is also prone to such a middle man attack.
-This requires us to send an ID along with message to authenticate. For such an ID, we need to have a centralized agency who produce a certificate. Such an agency is called \textit{Certification Agency(CA)}. When we use https, we see a lock symbol in the browser. Its one kind of a certificate.\\
-Now, for a person $A$ to communicate, it asks for a certificate to CA by sending $(A=\alpha^a \pmod{p} , ID_A)$ ($ID_A$ is some ID sent by it like IP address or serial number of processor or something which is unique across world). Now, CA produces a signature($S_A$) on them using its own private key ($K_{private,CA}$) and sends it back along with its public key.
-Such a system with CA is called PKI \textit{Public Key Infrastructure}.
+
+\section*{Centralized Agency (CA)}
+Thus some authorised middle man is required to authenticate both and build trust. Such an agency is called Centralized Agency (CA). Such a system with CA is called PKI i.e \textit{Public Key Infrastructure}.
+The above problem just requires people to send an ID along with message to authenticate.The centralized agency produces a certificate for whatever it sends and its ID. When we use https, we see a lock symbol in the browser. Its one kind of a certificate.\\
+Now, for a person $A$ to communicate, it asks for a certificate to CA by sending $(A=\alpha^a \pmod{p} , ID_A)$ ($ID_A$ is some ID sent by it like IP address or serial number of processor or something which is unique across world). Now, CA produces a signature($S_A = Sign_{K_{private,CA}}(A,ID_A)$) on them using its own private key ($K_{private,CA}$) and sends it back along with its public key($K_{public,CA}$).
+
 \begin{figure}[ht]
   \begin{tikzpicture}
     % First set of text and boxes
@@ -1416,8 +1419,8 @@ Such a system with CA is called PKI \textit{Public Key Infrastructure}.
         A chooses a private key $a$ from {2,3,..,$p-2$} \\
         Calculate public key $A = \alpha^a \pmod{p}$
         Send $(A,ID_A, S_A)$ \\ \\ \\
-        Recieve $B'$.\\
-        $K_{AB'} = B'^{a} \pmod{p} = \alpha^{a r_1} \pmod{p}$
+        Recieve $B$. Check it with CA.\\
+        $K_{AB} = B^{a} \pmod{p} = \alpha^{a.b} \pmod{p}$
       \end{minipage}
     };
     \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (B) at (8,0) {
