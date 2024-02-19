@@ -1285,11 +1285,13 @@ This is currently widely used methof for Digit Signatures. This algorithm reduce
       \begin{minipage}{7cm}
         \begin{itemize}
           \item Verification
-          \item Compute \\
-          $w = S^{-1} \pmod{q}$ \\
-          $\mu_{1} = w.SHA(m) \pmod{q}$ \\
-          $\mu_{2} = w.r \pmod{q}$ \\
-          $v = (\alpha^{\mu_{1}}.\beta^{\mu_{2}} \pmod{p}) \pmod{q}$ \\
+          \item Compute
+          \begin{align*}
+            w &= S^{-1} \pmod{q} \\
+            \mu_{1} &= w.SHA(m) \pmod{q} \\
+            \mu_{2} &= w.r \pmod{q} \\
+            v &= (\alpha^{\mu_{1}}.\beta^{\mu_{2}} \pmod{p}) \pmod{q} \\
+            \end{align*}
           \item If $v \equiv r$, then the signature is valid. Else invalid
         \end{itemize}
       \end{minipage}
@@ -1302,7 +1304,7 @@ This is currently widely used methof for Digit Signatures. This algorithm reduce
 
 \centering   
 \end{figure}
-
+$r,s$ are 160 bits each, and thus, the signature $(r,s)$ is of 320 bits (much smaller as compared to Elgamal method of $1024 + 1024 = 2048$ bits.)
 \subsection*{Correctness}
 
 \begin{align*}
@@ -1325,7 +1327,7 @@ So, $s^{-1}.(SHA(m)+d.r) = \theta q + K_E$.
 \end{align*}
 Here too, as $d$ is unknown signature can't be created by a random person other than the owner.
 
-\subsection*{Clearing some things}
+\subsection*{Clearing some concepts}
 Subgroup of $\mathbb{Z}^*_p$ such that $\{ e : e^q = 1 \pmod{p} \} $ and $\alpha$ is the generator of the subgroup. Here, first notice that its a group on its own as the properties such as Closure, Associativity, etc exists.\\
 Does inverse element exist?\\
 We know that $e^{-1}$ exits in $\mathbb{Z}^*_p$. We just need to prove $e^{-1}$ is in the subset provided $e$ is in it.
@@ -1338,5 +1340,101 @@ We know that $e^{-1}$ exits in $\mathbb{Z}^*_p$. We just need to prove $e^{-1}$ 
 \end{align*}
 Thus proved $e^{-1}$ is in the subset. Thus proved that this subset is actually a group. \\
 So just choose a primitive root $\alpha$ from this subgroup. \\ \\
-SHA is a hashing funtion which creates any message to a 64 bit value. It hashes so widely such that, practically every message hashes to a different value. Though through pigeion hole principle, there will exist messages to hashing to same value mathematically, practically we can assume they hash to different values.
+SHA is a hashing funtion which creates any message to a 64 bit value. It hashes so widely such that, practically every message hashes to a different value. Though through pigeion hole principle, there will exist messages to hashing to same value mathematically, practically we can assume they hash to different values.\\ \\
+Why do we hash the funtion? why can't we use the message at itself?\\
+First, hashing increases confusion in message, i.e, even if just a small change is made in message, its hash would be completely different. Secondly, messages can be arbitarily long, and so to have it standard, we hash it to 64 bit value.
+
+\clearpage
+% Lecture 10 on 15 - 02 - 2024
+\noindent\tbox{
+\begin{center}  
+    \huge Lecture - 12 \\
+    \Large Topic: Digital Signatures Algorithm
+\end{center}
+}
+
+\section*{Key Exchange}
+Two parties $A$ and $B$ wants to exchange key between them to use Symmetric Cryptography from then as Assymetric algorithm is computationally expensive to send the whole message.\\
+\textbf{Passive Evesdropping:} Listening on the common commutication channel between two parties.\\
+\subsection*{Active Evesdropping}
+Say an intruder is Active evesdropper, i.e, he/she can listen to the common communication channel and also write or transfer messages.\\
+Such an attack is called \textit{Man In The Middle} attack. Take example of DHKE between people $A$ and $B$. So, when $A=\alpha^{a}\pmod{p}$ and $B$ are transfered from each other, the intruder reads them, modify them as $A'$ and $B'$ and send to each other.\\
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (A) at (0,0) {
+      \begin{minipage}{5cm}
+        A chooses a private key $a$ from {2,3,..,$p-2$} \\
+        Calculate public key $A = \alpha^a \pmod{p}$
+        Send $A$ \\ \\ \\
+        Recieve $B'$.\\
+        $K_{AB'} = B'^{a} \pmod{p} = \alpha^{a r_1} \pmod{p}$
+      \end{minipage}
+    };
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (R) at (6,0) {
+      \begin{minipage}{5cm}
+        R chooses a private key $r_1$ from {2,3,..,$p-2$} \\
+        Calculate public key $A' = \alpha^{r_1} \pmod{p}$\\
+        R chooses a private key $r_2$ from {2,3,..,$p-2$} \\
+        Calculate public key $B' = \alpha^{r_2} \pmod{p}$ \\
+
+        Send $A'$ to person B \\
+        Send $B'$ to person A \\ \\ \\
+        Recieve $A$.\\
+        Recieve $B$.\\
+        $K_{AB'} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$ \\
+        $K_{A'B} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$ \\
+      \end{minipage}
+    };
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (B) at (12,0) {
+      \begin{minipage}{5cm}
+        A chooses a private key $b$ from {2,3,..,$p-2$} \\
+        Calculate public key $B = \alpha^b \pmod{p}$
+        Send $B$ \\ \\ \\
+        Recieve $A'$.\\
+        $K_{A'B} = A^{a} \pmod{p} = \alpha^{ab} \pmod{p}$
+      \end{minipage}
+    };
+
+    % \draw[->, thick] (7,-4) -- (10, -7);
+    % \draw[->, thick] (10, -4) -- (7,-7);
+
+\end{tikzpicture}
+
+\centering   
+\end{figure}
+Once, such a thing is done, the intruder can not only read the messages sent between them, but also can modify and send messages between them.\\
+Very similar attack is possible even in Elgamal. This problem arrises because, there is no authentication for any message. To resolve authentication, one may think we can use digital signatures. But, that is also prone to such a middle man attack.
+This requires us to send an ID along with message to authenticate. For such an ID, we need to have a centralized agency who produce a certificate. Such an agency is called \textit{Certification Agency(CA)}. When we use https, we see a lock symbol in the browser. Its one kind of a certificate.\\
+Now, for a person $A$ to communicate, it asks for a certificate to CA by sending $(A=\alpha^a \pmod{p} , ID_A)$ ($ID_A$ is some ID sent by it like IP address or serial number of processor or something which is unique across world). Now, CA produces a signature($S_A$) on them using its own private key ($K_{private,CA}$) and sends it back along with its public key.
+Such a system with CA is called PKI \textit{Public Key Infrastructure}.
+\begin{figure}[ht]
+  \begin{tikzpicture}
+    % First set of text and boxes
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (A) at (0,0) {
+      \begin{minipage}{7cm}
+        A chooses a private key $a$ from {2,3,..,$p-2$} \\
+        Calculate public key $A = \alpha^a \pmod{p}$
+        Send $(A,ID_A, S_A)$ \\ \\ \\
+        Recieve $B'$.\\
+        $K_{AB'} = B'^{a} \pmod{p} = \alpha^{a r_1} \pmod{p}$
+      \end{minipage}
+    };
+    \node[draw, rectangle, minimum width=5cm, minimum height=1cm,anchor=east] (B) at (8,0) {
+      \begin{minipage}{7cm}
+        B knows the public key of CA and so it can verify $(A,ID_A)$ using $S_A$. Thus B can be sure that its sent from A only and not from intruder.
+        Now follow same steps for our regular algorithm.
+      \end{minipage}
+    };
+
+    % \draw[->, thick] (7,-4) -- (10, -7);
+    % \draw[->, thick] (10, -4) -- (7,-7);
+
+\end{tikzpicture}
+
+\centering   
+\end{figure}
+
+Now, if intruder wants to do something, it can't give fake signature of CA about $A=\alpha^a \pmod{p}$ and ID as private key of CA is not known to anyone. Of cource if CA's private key is known, he/she can break anything on their way. Assuming its not possible, now communication is assumed secure.
+
 \end{document}
