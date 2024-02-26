@@ -1,7 +1,7 @@
 \documentclass[english, 11pt]{article}
 % \usepackage[T1]{fontenc}
 % \usepackage[latin9]{inputenc}
-\usepackage[top = 2cm, left = 2.5cm, right = 2.5cm, bottom = 2cm]{geometry}
+\usepackage[top = 0.5cm, left = 0.5cm, right = 0.5cm, bottom = 0.5cm]{geometry}
 \usepackage{enumitem}
 % \usepackage{fontspec}
 \usepackage{amsmath}
@@ -74,7 +74,7 @@ We have a table where each letter is mapped to other letters and text is ciphere
 This seems like an optimal solution, but there is a problem. In an average english text, each letter has a specific frequency of repetition. \\
 Say letter "A" is coded to letter "K" (randomly). So frequency of letter K would be same as of the letter "A" in a normal text. So by this way, cipher text could possibly be decrypted.
 
-\clearpage
+
 \noindent\tbox{
 
 \begin{center}
@@ -138,7 +138,7 @@ Say $m^l$ is a message of bits of length $l$, and key $k^l$ is key of same lengt
   &= m^l \oplus k^l \oplus k^l \\
   &= m^l \\
 \end{align*}
-Provided key is generated completely random, and no part of key is known to Evasdropper, they can't decrypt it as probability of $c$ being 0 or 1 is independent of message itself. I.e,
+Provided key is generated completely random, and no part of key is known to Eavesdropper, they can't decrypt it as probability of $c$ being 0 or 1 is independent of message itself. I.e,
 \[ Prob(cipher = c | msg = m) = Prob(cipher = c | msg = m') \]
 Hence, it is safe.
 Disadvantages:
@@ -155,7 +155,7 @@ In general, if its not a bit string, the encryption can be taken as sum modulus 
   &= m^l \pmod{n}\\
 \end{align*}
 
-\clearpage
+
 \noindent\tbox{
 
 \begin{center}
@@ -166,7 +166,7 @@ In general, if its not a bit string, the encryption can be taken as sum modulus 
 }
 \section*{Perfectly secrecy}
 \subsection*{OTP}
-For a message to be perfectly secret, the Evasdropper should not be able to get any extra information from the ciphertext. So, \\
+For a message to be perfectly secret, the Eavesdropper should not be able to get any extra information from the ciphertext. So, \\
 \begin{align*}
   P(M=m|C=c) &= P(M=m) \quad \text{[message = m, and ciphertext = c]} \\
   P_c(m) &= P(m) \\
@@ -190,7 +190,7 @@ For a message to be perfectly secret, the Evasdropper should not be able to get 
   P(M=m|C=c) &= P(M=m) \\
 \end{align*}
 Hence proved that it is perfectly secret. \\
-But, what happens if key is repeated? Say a message said "Fire the gun" to a soldier which was ciphered to $c$ using key $k$, though an Evasdropper technically doesn't know the key, now he would see the soldier firing after getting message and so he can guess the message.
+But, what happens if key is repeated? Say a message said "Fire the gun" to a soldier which was ciphered to $c$ using key $k$, though an Eavesdropper technically doesn't know the key, now he would see the soldier firing after getting message and so he can guess the message.
 Using the ciphertext, he can get the $key = message \oplus cipher$ and if same key is used again, he would guess the message. Thus key can be used just once.\\
 Also, if $M = {m_1='a',m_2='ab'}$ and,\\
 if $c='x'$, $P_c(m_1) = 1$ and $P_c(m_2) = 0$ (This method reveals length of the message) \\
@@ -231,7 +231,7 @@ Conditonal entropy of X, given Y is:
 \end{align*}
 If $C$ is the cipher text, and if $ H_C(M) \approx 0 $, then its easily breakable as it is not that uncertain.
 
-\clearpage
+
 \noindent\tbox{
 
 \begin{center}
@@ -252,7 +252,7 @@ Here, a pair of Keys $E_k$ and $D_k$ are created by a party which are related to
 \subsection*{Method 1: Secrecy Ensured}
 Lets say, person $A$ wants to send a message to person $B$. Now, person $B$ created the pair of keys $E_B$ and $D_B$ and sends $E_B$ publically.
 So, now $A$ encrypts message $m$ using $E_B$ to send cipher $c$.\\
-Here, since $D_B$ is known only by person $B$, just $B$ can decrypt it and no one else. Thus here, secracy is ensured. But, cipher $c$ can be tapped and some other message $m'$ can be encrypted to $c'$ using public key $E_B$ by an Evasdropper and sent. So, here, authenticity is not ensured.
+Here, since $D_B$ is known only by person $B$, just $B$ can decrypt it and no one else. Thus here, secracy is ensured. But, cipher $c$ can be tapped and some other message $m'$ can be encrypted to $c'$ using public key $E_B$ by an Eavesdropper and sent. So, here, authenticity is not ensured.
 
 \begin{figure}[ht]
   \begin{tikzpicture}
@@ -371,7 +371,7 @@ This is based on actual random events such as some hardware that changes drastic
 This is done algorithmic and could be predicted based on its previous values.
 
 % 25 - 01 - 2024 LECTURE 5
-\clearpage
+
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 05 \\
@@ -515,7 +515,7 @@ Due to its linear nature, an LFSR can be easily broken.
 We shall introduce non-linearity by using AND and OR gates in the circuit which will be covered in the next class :)
 
 % 29 - 01 - 2024 LECTURE 6
-\clearpage
+
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 06 \\
@@ -727,7 +727,7 @@ Change in one bit in the plaintext influences multiple bits in the ciphertext.
         \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box1) at (6,-1) {Expand};
         \draw[->, thick] (6,0) -- (box1.north);
         \node[draw, circle, minimum size=0.5cm] (xor1) at (6,-2.5) {$\oplus$};
-        \node[anchor=west] at (7,-2.5) {$K_{i+1} (32 bit)$};\draw[->, thick] (7,-2.5) -- (xor1.east);
+        \node[anchor=west] at (7,-2.5) {$K_{i+1} (\text{48 bits from 56 bits key})$};\draw[->, thick] (7,-2.5) -- (xor1.east);
         \draw[->, thick] (box1.south) -- (xor1.north);\node[anchor=center] at (6.5,-3.5) {$48 bit$};
         % SUBSTITUTION PART
         \draw[-, thick] (xor1.south) -- (6,-4);
@@ -748,7 +748,7 @@ Change in one bit in the plaintext influences multiple bits in the ciphertext.
           \fill[black] (10.5,-6) circle (1pt);
         %lines again
         \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (perm) at (6,-10) {$f(K_{i+1},R_{i})$};        
-        \draw[->, thick] (6,-8) -- (perm.north);\node[anchor=center] at (6.5,-8.5) {$32 bit$};
+        \draw[->, thick] (6,-8) -- (perm.north);\node[anchor=center] at (6.5,-8.5) {$32 bits$};
         \draw[-, thick] (0,-8) -- (12,-8);
         \draw[-, thick] (0,-7) -- (0,-8);\node[anchor=center] at (0.5,-7.5) {$4 bit$};
         \draw[-, thick] (1.5,-7) -- (1.5,-8);\node[anchor=center] at (2,-7.5) {$4 bit$};
@@ -825,7 +825,7 @@ Substitution is done based on 8 tables(S1 to S8) of size 4$\times$16. The 6 bit 
 last bit indicates the row and the 4 bits in the middle indicate the column.
 
 \subsection*{Key Generation}
-The Key is of 64 bits, outta which every $8^{th}$ bit is redundant and thus discarded. Let us look at the 56 bits that matter,\\
+The Key is of 56 bits, outta which every $7^{th}$ bit is redundant and thus discarded after shifting(to be precise, its rotation) as shown below.\\
 
 \begin{figure}[ht]
   \begin{center}
@@ -886,14 +886,14 @@ The Key is of 64 bits, outta which every $8^{th}$ bit is redundant and thus disc
   
     \centering   
   \end{figure}
-
+Thus after rotating, we discard the 7th bits to get 48 bit keys for every corresponding round.
 \begin{itemize}
   \item The keys for each round are generated by shifting from the preceding key.
   \item In rounds 1, 2, 9, and 16, shift occurs with an offset of 1, while for the remaining rounds, the offset is 2. 
 \end{itemize}    
 
 
-\clearpage
+
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 07 \\
@@ -954,12 +954,12 @@ Lets prove that its in reverse order. [d- denotes for bitstrings during decrypti
   R_0^d &= L_{16}^e = R_{15}^e \\
   L_1^d &= R_{0}^d = R_{15}^e \\
   R_1^d &= L_0^d \oplus f(R_0^d, k_1^d) \\
-  &= L_0^d \oplus f(R_15^e, k_16^e) \\
-  &= R_16^e \oplus f(R_15^e, k_16^e) \\
-  &= L_15^e \oplus f(R_15^e, k_16^e) \oplus f(R_15^e, k_16^e) \\
-  &= L_15^e \\
+  &= L_0^d \oplus f(R_{15}^e, k_{16}^e) \\
+  &= R_{16}^e \oplus f(R_{15}^e, k_{16}^e) \\
+  &= L_{15}^e \oplus f(R_{15}^e, k_{16}^e) \oplus f(R_{15}^e, k_{16}^e) \\
+  &= L_{15}^e \\
 \end{align*}
-thus, $R_1^d=L_15^e$ and similarly, $l_1^d=R_15^e$. so just the right and left are just reversed.
+thus, $R_1^d=L_{15}^e$ and similarly, $L_1^d=R_{15}^e$. so just the right and left are just reversed.
 
 \section*{Problem with DES, and subsequent methods}
 Here, since the key length is just 64 bits, brute force method was very much possible, and so other methods such as AES, DES were introduced.\\
@@ -1038,11 +1038,11 @@ It can be done is two ways as shown:
 \section*{Rivest–Shamir–Adleman (RSA) algorithm}
 Its an Assymetric type encryption. The method is as follows.
 \begin{itemize}
-  \item get two large prime nos p and q (let $p,q > 2^{1024}$)
+  \item get two large prime numbers p and q (let $p,q > 2^{1024}$)
   \item find $n = pq$
   \item euler's function $\phi(n) = (p-1)(q-1)$
   \item select public key $e$ such that, $gcd(e,\phi(n) = 1)$
-  \item obtain private key $d$ which is $= e^{-1} \pmod{\phi(n)} $. Here, inverse element exist because $gcd(e,\phi(n) = 1)$.
+  \item obtain private key $d$ which is $= e^{-1} \pmod{\phi(n)} $. Here, inverse element exist because $gcd(e,\phi(n)) = 1$.
 \end{itemize}
 private info - d,p,q \\
 public info - e,N
@@ -1060,7 +1060,7 @@ public info - e,N
 \end{itemize}
 Generally, Assymetric key is computationally very expensive and thus very difficult to send the entire message through Assymetric method. Thus, keys of Symmetric key method are sent using Assymetric method and messages are sent with Symmetric key encryption henceforth.
 
-\clearpage
+
 \noindent\tbox{
 \begin{center}  
     \huge Lecture - 08 \\
@@ -1125,21 +1125,21 @@ A group is a set of elements and an operator * such that it follows the followin
 (Commutativity is not necessary but if there, its called an abelian group)
 
 \section*{How to choose $\alpha$}
-Here, lets define a group $\mathbb{Z}^{*}_{p} = {i: i \in {0,1,..,p-1}, gcd(i,p) = 1}$ with operator as multiplication in $\pmod{p}$.\\
-If p is a prime number, then $\mathbb{Z}^{*}_{p} = {i: i \in {1,..,p-1}, gcd(i,p) = 1}$ \\
-Euler's function, $\phi(p) = |\mathbb{Z}^{*}_{p} = p-1|$ for a prime number. \\
-Fermat's little theorem states that, $a^{\phi(n)} \pmod{n} = a$ for any n. So here,
+Here, lets define a group $\mathbb{Z}^{*}_{p} = \{i: i \in {0,1,..,p-1}, gcd(i,p) = 1\}$ with operator as multiplication in $\pmod{p}$.\\
+If p is a prime number, then $\mathbb{Z}^{*}_{p} = \{i: i \in {1,..,p-1}, gcd(i,p) = 1\}$ \\
+Euler's function, $\phi(p) = |\mathbb{Z}^{*}_{p}| = p-1$ for a prime number. \\
+Fermat's little theorem states that, $a^{\phi(n)} \pmod{n} = 1$ for any n. So here,
 $\alpha^{\phi(p)} \pmod{p} = \alpha^{p-1} \pmod{p} = 1$ \\
 i.e, on powering $\alpha$ repeats in a cycle of length, a factor of $\phi(p) = p-1$.
 If the length is exactly $p-1$, we say its a primitive root of p.
 We want the length to be as long as possible to maximise randomness, and number of possiblities of $\alpha^n$.\\
 Eg - in $\mathbb{Z}^{*}_{11}$, 2 is a primitive root whereas, 3 is not.. 3 has a cycle of 5, and 2 has a cycle of 10 (= 11-1). Try it out.
 \\ \\ \\
-Why are $a$ and $b$ chosen from {2,3,..,$p-2$}, i.e, 1 and $p-1$ are ignored?\\
+Why are $a$ and $b$ chosen from \{2,3,..,$p-2$\}, i.e, 1 and $p-1$ are ignored?\\
 \textbf{If a = 1}, $A = \alpha^1 \pmod{p} = \alpha$. Since $A$ and $\alpha$ are known, its easily seen that they're equal and so $a=1$ can be found. Then, $K_{AB} = B^a = B$ simply. Thus key get knowned.\\
 \textbf{If a = p-1}, $A = \alpha^{p-1} \pmod{p} = 1$(Fermat's little theorem). Since $A=1$, its easily seen that they're equal and so $a=p-1$ can be found, provided $\alpha$ is a primitve root. Otherwise, $a$ will be a factor of $p-1$ which also could be found easily ig.. Then, $K_{AB} = B^a$ simply. Thus key get knowned.\\
 
-\clearpage
+
 % Lecture 9 on 09 - 02 - 2024
 \noindent\tbox{
 \begin{center}  
@@ -1171,7 +1171,7 @@ c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} 
 
 \section*{Elgamal(1985)}
 
-\clearpage
+
 % Lecture 10 on 12 - 02 - 2024
 \noindent\tbox{
 \begin{center}  
@@ -1249,7 +1249,7 @@ $r = \alpha^{K_E}$ can be calculated by choosing some random $K_E$. But to calcu
 \subsection*{Disadvantage}
 The signature size is double the size of RSA as we are sending both $r$ and $s$ as signatures.
 
-\clearpage
+
 % Lecture 10 on 15 - 02 - 2024
 \noindent\tbox{
 \begin{center}  
@@ -1268,7 +1268,7 @@ This is currently widely used methof for Digit Signatures. This algorithm reduce
       \begin{minipage}{10cm}
         \begin{itemize}
           \item Choose $p$ s.t. $2^{1023}<p<2^{1024}$
-          \item Choose $q$, a factor of $\phi(p) = p-1$ s.t. $2^{159}<p<2^{160}$
+          \item Choose $q$, a factor of $\phi(p) = p-1$ s.t. $2^{159}<q<2^{160}$
           \item Choose $\alpha$ s.t. $ord(Z_{p}) = q$. \\ i.e, $\alpha$ is the generator of a subgroup of $\mathbb{Z}^*_p$ of order $q$. \\ In other words, there exists a subgroup of $\mathbb{Z}^*_p$ such that $\{ e : e^q = 1 \pmod{p} \} $ and $\alpha$ is the primitive root of the subgroup. We'll discuss this in detail later.
           \item $K_{pr} = d \in \{0,1,2,3,...,q-1\}$.
           \item Choose $K_{pub} = \beta = \alpha^{d} \pmod{q}$
@@ -1344,7 +1344,7 @@ SHA is a hashing funtion which creates any message to a 64 bit value. It hashes 
 Why do we hash the funtion? why can't we use the message at itself?\\
 First, hashing increases confusion in message, i.e, even if just a small change is made in message, its hash would be completely different. Secondly, messages can be arbitarily long, and so to have it standard, we hash it to 64 bit value.
 
-\clearpage
+
 % Lecture 10 on 15 - 02 - 2024
 \noindent\tbox{
 \begin{center}  
@@ -1355,9 +1355,9 @@ First, hashing increases confusion in message, i.e, even if just a small change 
 
 \section*{Key Exchange}
 Two parties $A$ and $B$ wants to exchange key between them to use Symmetric Cryptography from then as Assymetric algorithm is computationally expensive to send the whole message.\\
-\textbf{Passive Evesdropping:} Just can listen on the common commutication channel between two parties and cannot send data.\\
-\subsection*{Active Evesdropping}
-Say an intruder is Active evesdropper, i.e, he/she can listen to the common communication channel and also write or transfer messages.\\
+\textbf{Passive Eavesdropping:} Just can listen on the common commutication channel between two parties and cannot send data.\\
+\subsection*{Active Eavesdropping}
+Say an intruder is Active eavesdropper, i.e, he/she can listen to the common communication channel and also write or transfer messages.\\
 Such an attack is called \textit{Man In The Middle} attack. Take example of DHKE between people $A$ and $B$. So, when $A=\alpha^{a}\pmod{p}$ and $B$ are transfered from each other, the intruder reads them, modify them as $A'$ and $B'$ and send to each other.\\
 \begin{figure}[ht]
   \begin{tikzpicture}
