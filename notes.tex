@@ -1,7 +1,7 @@
 \documentclass[english, 11pt]{article}
 % \usepackage[T1]{fontenc}
 % \usepackage[latin9]{inputenc}
-\usepackage[top = 0.5cm, left = 0.5cm, right = 0.5cm, bottom = 0.5cm]{geometry}
+\usepackage[top = 2cm, left = 2.5cm, right = 2.5cm, bottom = 2cm]{geometry}
 \usepackage{enumitem}
 % \usepackage{fontspec}
 \usepackage{amsmath}
@@ -33,16 +33,20 @@
 }
 
 
-\newcommand{\tbox}[1]{\noindent\fbox{\parbox{\textwidth}{#1}}}
+\newcommand{\tbox}[2]{\noindent\fbox{\parbox{\textwidth}{#2} \label{tbox:#1} \addcontentsline{toc}{tbox:#1}{Lecture - #1 \\}}}
 
 \setlength{\parindent}{0pt}
 
 \begin{document}
 
-\textbf{CS 745 : Principles of Data and System Security} \hfill
+\section*{CS 745 : Principles of Data and System Security} \hfill
 \textit{Scribed by}: Kavin Arvind and Nikil S
 
-\noindent\tbox{
+\tableofcontents
+
+\clearpage
+
+\noindent\tbox{01}{
 
 \begin{center}
   \huge Lecture - 01 \\ % change lecture number
@@ -75,7 +79,8 @@ This seems like an optimal solution, but there is a problem. In an average engli
 Say letter "A" is coded to letter "K" (randomly). So frequency of letter K would be same as of the letter "A" in a normal text. So by this way, cipher text could possibly be decrypted.
 
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{02}{
 
 \begin{center}
   \huge Lecture - 02 \\ % change lecture number
@@ -156,7 +161,8 @@ In general, if its not a bit string, the encryption can be taken as sum modulus 
 \end{align*}
 
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{01}{
 
 \begin{center}
   \huge Lecture - 03 \\ % change lecture number
@@ -232,7 +238,8 @@ Conditonal entropy of X, given Y is:
 If $C$ is the cipher text, and if $ H_C(M) \approx 0 $, then its easily breakable as it is not that uncertain.
 
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{01}{
 
 \begin{center}
   \huge Lecture - 04 \\ % change lecture number
@@ -372,7 +379,8 @@ This is done algorithmic and could be predicted based on its previous values.
 
 % 25 - 01 - 2024 LECTURE 5
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 05 \\
     \Large Topic: Symmetric Crytopgraphy(Stream Cipher, LFSR)
@@ -516,7 +524,8 @@ We shall introduce non-linearity by using AND and OR gates in the circuit which 
 
 % 29 - 01 - 2024 LECTURE 6
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 06 \\
     \Large Topic: DES, Feistel Cipher
@@ -894,7 +903,8 @@ Thus after rotating, we discard the 7th bits to get 48 bit keys for every corres
 
 
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 07 \\
     \Large Topic: Decryption of DES and Assymetric Cryptography
@@ -1061,7 +1071,8 @@ public info - e,N
 Generally, Assymetric key is computationally very expensive and thus very difficult to send the entire message through Assymetric method. Thus, keys of Symmetric key method are sent using Assymetric method and messages are sent with Symmetric key encryption henceforth.
 
 
-\noindent\tbox{
+\clearpage
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 08 \\
     \Large Topic: RSA algorithm and Diffie–Hellman Key Exchange
@@ -1140,8 +1151,9 @@ Why are $a$ and $b$ chosen from \{2,3,..,$p-2$\}, i.e, 1 and $p-1$ are ignored?\
 \textbf{If a = p-1}, $A = \alpha^{p-1} \pmod{p} = 1$(Fermat's little theorem). Since $A=1$, its easily seen that they're equal and so $a=p-1$ can be found, provided $\alpha$ is a primitve root. Otherwise, $a$ will be a factor of $p-1$ which also could be found easily ig.. Then, $K_{AB} = B^a$ simply. Thus key get knowned.\\
 
 
-% Lecture 9 on 09 - 02 - 2024
-\noindent\tbox{
+
+\clearpage% Lecture 9 on 09 - 02 - 2024
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 09 \\
     \Large Topic: Diffie-Hellman Key Exchange Protocol (DHD), Elgamal
@@ -1172,8 +1184,9 @@ c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} 
 \section*{Elgamal(1985)}
 
 
-% Lecture 10 on 12 - 02 - 2024
-\noindent\tbox{
+
+\clearpage% Lecture 10 on 12 - 02 - 2024
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 10 \\
     \Large Topic: Digital Signatures - RSA
@@ -1250,8 +1263,9 @@ $r = \alpha^{K_E}$ can be calculated by choosing some random $K_E$. But to calcu
 The signature size is double the size of RSA as we are sending both $r$ and $s$ as signatures.
 
 
-% Lecture 10 on 15 - 02 - 2024
-\noindent\tbox{
+
+\clearpage% Lecture 10 on 15 - 02 - 2024
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 11 \\
     \Large Topic: Digital Signatures Algorithm
@@ -1345,8 +1359,9 @@ Why do we hash the funtion? why can't we use the message at itself?\\
 First, hashing increases confusion in message, i.e, even if just a small change is made in message, its hash would be completely different. Secondly, messages can be arbitarily long, and so to have it standard, we hash it to 64 bit value.
 
 
-% Lecture 10 on 15 - 02 - 2024
-\noindent\tbox{
+
+\clearpage% Lecture 10 on 15 - 02 - 2024
+\noindent\tbox{01}{
 \begin{center}  
     \huge Lecture - 12 \\
     \Large Topic: Digital Signatures Algorithm
