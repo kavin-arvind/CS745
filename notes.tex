@@ -1455,4 +1455,48 @@ Now, for a person $A$ to communicate, it asks for a certificate to CA by sending
 
 Now, if intruder wants to do something, it can't give fake signature of CA about $A=\alpha^a \pmod{p}$ and ID as private key of CA is not known to anyone. Of cource if CA's private key is known, he/she can break anything on their way. Assuming its not possible, now communication is assumed secure.
 
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{01}{
+\begin{center}  
+    \huge Lecture - 13 \\
+    \Large Topic: Security Services
+\end{center}
+}
+
+\section*{Security Services}
+\begin{itemize}
+  \item Confidentiality
+  \item Authentication
+  \item Integrity (Not tampered by third party)
+  \item Non-repudiation
+  \item Access Control
+  \item ...
+\end{itemize}
+
+Confidentiality can be ensured by Encryption.\\
+Authentication can be ensured by Digital Signatures.\\
+Integrity can be ensured by Diffusion.\\
+Non-repudiation can be prevented by Digital Signatures.\\
+\\
+Access Control is our next topic of discussion :)
+\\
+\section*{Elgamal}
+Vulnerable to Man in the Middle Attack.\\ 
+Solution to this? Certification Authority as we saw in last class.\\
+The signature of CA is obtained by providing Public key A and ID\textsubscript{A}. Third party cannot obtain the certification in the name of A as their identity is verified at multiple levels like Govt ID, emails, phonecalls, etc.
+Also, the certification comes with a validity period, and should be renewed after that period. Nowadays, the certificate comes along with the device when it is bought.
+\\
+There is no one centralised CA. The main CA is divided into multiple sub CAs. This is done as if the centralised CA is compromised, then all the data in the world is at risk.
+\\
+This kind of security is used in SSL, TSL Protocols.
+\\
+We have four levels of security:
+\begin{itemize}
+  \item Application
+  \item Transportation Layer
+  \item Network Layer
+  \item DLL
+  \item Physical Layer
+\end{itemize}
+
 \end{document}
