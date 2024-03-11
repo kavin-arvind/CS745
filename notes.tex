@@ -33,7 +33,7 @@
 }
 
 
-\newcommand{\tbox}[2]{\noindent\fbox{\parbox{\textwidth}{#2} \label{tbox:#1} \addcontentsline{toc}{tbox:#1}{Lecture - #1 \\}}}
+\newcommand{\tbox}[2]{\noindent\fbox{\parbox{\textwidth}{#2} \label{tbox:#1} \addcontentsline{toc}{tbox:#1}{\\Lecture - #1 ..................................................................}}}
 
 \setlength{\parindent}{0pt}
 
@@ -47,12 +47,10 @@
 \clearpage
 
 \noindent\tbox{01}{
-
 \begin{center}
   \huge Lecture - 01 \\ % change lecture number
   \Large Topic:  History of Cryptography
 \end{center}
-
 }
 
 \section*{Shifted cipher}
@@ -162,7 +160,7 @@ In general, if its not a bit string, the encryption can be taken as sum modulus 
 
 
 \clearpage
-\noindent\tbox{01}{
+\noindent\tbox{03}{
 
 \begin{center}
   \huge Lecture - 03 \\ % change lecture number
@@ -239,13 +237,11 @@ If $C$ is the cipher text, and if $ H_C(M) \approx 0 $, then its easily breakabl
 
 
 \clearpage
-\noindent\tbox{01}{
-
+\noindent\tbox{04}{
 \begin{center}
   \huge Lecture - 04 \\ % change lecture number
   \Large Topic: Key distributions
 \end{center}
-
 }
 
 \section*{Symmetric Key Cryptography}
@@ -380,7 +376,7 @@ This is done algorithmic and could be predicted based on its previous values.
 % 25 - 01 - 2024 LECTURE 5
 
 \clearpage
-\noindent\tbox{01}{
+\noindent\tbox{05}{
 \begin{center}  
     \huge Lecture - 05 \\
     \Large Topic: Symmetric Crytopgraphy(Stream Cipher, LFSR)
@@ -525,7 +521,7 @@ We shall introduce non-linearity by using AND and OR gates in the circuit which 
 % 29 - 01 - 2024 LECTURE 6
 
 \clearpage
-\noindent\tbox{01}{
+\noindent\tbox{06}{
 \begin{center}  
     \huge Lecture - 06 \\
     \Large Topic: DES, Feistel Cipher
@@ -904,7 +900,7 @@ Thus after rotating, we discard the 7th bits to get 48 bit keys for every corres
 
 
 \clearpage
-\noindent\tbox{01}{
+\noindent\tbox{07}{
 \begin{center}  
     \huge Lecture - 07 \\
     \Large Topic: Decryption of DES and Assymetric Cryptography
@@ -1072,7 +1068,7 @@ Generally, Assymetric key is computationally very expensive and thus very diffic
 
 
 \clearpage
-\noindent\tbox{01}{
+\noindent\tbox{08}{
 \begin{center}  
     \huge Lecture - 08 \\
     \Large Topic: RSA algorithm and Diffie–Hellman Key Exchange
@@ -1153,7 +1149,7 @@ Why are $a$ and $b$ chosen from \{2,3,..,$p-2$\}, i.e, 1 and $p-1$ are ignored?\
 
 
 \clearpage% Lecture 9 on 09 - 02 - 2024
-\noindent\tbox{01}{
+\noindent\tbox{09}{
 \begin{center}  
     \huge Lecture - 09 \\
     \Large Topic: Diffie-Hellman Key Exchange Protocol (DHD), Elgamal
@@ -1186,7 +1182,7 @@ c = m.K_{AB}\pmod{p} &\xrightarrow[\hspace{1cm}]{\text{c}} m = c.K_{AB}\pmod{p} 
 
 
 \clearpage% Lecture 10 on 12 - 02 - 2024
-\noindent\tbox{01}{
+\noindent\tbox{10}{
 \begin{center}  
     \huge Lecture - 10 \\
     \Large Topic: Digital Signatures - RSA
@@ -1265,7 +1261,7 @@ The signature size is double the size of RSA as we are sending both $r$ and $s$ 
 
 
 \clearpage% Lecture 10 on 15 - 02 - 2024
-\noindent\tbox{01}{
+\noindent\tbox{11}{
 \begin{center}  
     \huge Lecture - 11 \\
     \Large Topic: Digital Signatures Algorithm
@@ -1361,7 +1357,7 @@ First, hashing increases confusion in message, i.e, even if just a small change 
 
 
 \clearpage% Lecture 10 on 15 - 02 - 2024
-\noindent\tbox{01}{
+\noindent\tbox{12}{
 \begin{center}  
     \huge Lecture - 12 \\
     \Large Topic: Digital Signatures Algorithm
@@ -1456,7 +1452,7 @@ Now, for a person $A$ to communicate, it asks for a certificate to CA by sending
 Now, if intruder wants to do something, it can't give fake signature of CA about $A=\alpha^a \pmod{p}$ and ID as private key of CA is not known to anyone. Of cource if CA's private key is known, he/she can break anything on their way. Assuming its not possible, now communication is assumed secure.
 
 \clearpage% Lecture 13 on 7 - 03 - 2024
-\noindent\tbox{01}{
+\noindent\tbox{13}{
 \begin{center}  
     \huge Lecture - 13 \\
     \Large Topic: Security Services
@@ -1498,5 +1494,26 @@ We have four levels of security:
   \item DLL
   \item Physical Layer
 \end{itemize}
+
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{14}{
+\begin{center}  
+    \huge Lecture - 14 \\
+    \Large Topic: Security Protocols(Guest Lecture)
+\end{center}
+}
+\\
+Have you ever noticed broken lock symbol in unsafe websites? What are these? How do we actually send messages?
+\section*{Digital certificate}
+Every device would have a digital certificate which contains information like the person's identity(eg- name, address, organisation), public key, some serial number, validaity dates, certification authority's identity, its digital signature, etc which would be verified by the CA(Certificatation Authority). So indirectly, every user trusts the CA (or whoever is the issuer of the certificate).
+All the personal information would be stored in a data stucture, and certificate would be issued by it. But CA cannot certify all over the world right? Traffic would grow exponentially. So, CA can also allot people, and give a certificate that, this firm can issue certification. So end users can believe certificate issued by either CA, or by firms approved by CA. Actually, we can choose organisations that we trust for certification issuing. Many organisations, banks do this.
+Try this at room using the slides.
+
+\section*{Protocol against Middle Man Attack}
+Say person Alpha wants to send message to Beta and there is a middle man Gamma trying to decrypt it. Each have a certificate from CA for their public key. With the public key of the CA, anyone can verify the certificate. Now, everyone knows everyone's public key, their cerificates. So if Alpha wants to send to Beta, he can use Beta's public key so that only Beta can decrypt it.
+When we make connection with google with https, we authenticate google using its certificate. See the slides, for SSL protocol where exchange of messages to google is clearly mentioned.
+
+This is a broadcast system where each person can see anyone's message transaction with everyone having certificate and public keys. But, can an internet service provider(ISP like Jio/ Airtel) interfere in between? Actually, every internet packet is through ISP only, and so they can do anything they want.
+SSL certificates are for websites mainly. For emails, its seperate, for whatsapp, or facebook, it different it seems.
 
 \end{document}
