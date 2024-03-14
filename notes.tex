@@ -1516,4 +1516,50 @@ When we make connection with google with https, we authenticate google using its
 This is a broadcast system where each person can see anyone's message transaction with everyone having certificate and public keys. But, can an internet service provider(ISP like Jio/ Airtel) interfere in between? Actually, every internet packet is through ISP only, and so they can do anything they want.
 SSL certificates are for websites mainly. For emails, its seperate, for whatsapp, or facebook, it different it seems.
 
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{15}{
+\begin{center}  
+    \huge Lecture - 15 \\
+    \Large Topic: Security Protocols(Guest Lecture)
+\end{center}
+}
+
+\section*{Revoking a certificate}
+Say you have your physical id card. And the institute wants to revoke it before the day of expiry. Since its physical, it can be broken, and revoked, but how to invalidate a digital certificate. We can't delete the certificate simply as its known by everyone. Also, if a person is offline, he won't Recieve the info that its revoked. We can't maintain a revocation list as there might be many certificates revoked everywhere, and its very difficult.
+There is a heirarchy of certification agencies which makes it more difficult. 
+
+\section*{Replay Attack}
+Say a car is unlocked by a key with IR transmitter. It can be listened, and replayed, or re created to unlock the car. This kind of attack is called replay attack. To avoid this, we can include time stamp along with the message.
+\\
+\\
+So, see both the problems mentioned above. A certificate comes along with a freshness term to represent a time stamp at which a certificate is created.
+
+\section*{Authorization / Access Control}
+We have seen before what both means. We need to somehow maintain permissions for each person to view/edit any data.
+There are two types of Access control:
+\begin{itemize}
+  \item[DAC:] Discresionary access control.\\ The owner has the full control over who can read the file, who can update/modify, etc.
+  \item[MAC:] Mandatory access control. \\ Irrespective of who is the owner, the sytem administrator has to enforce in system level. He need to design a policy and needs a mechanism to enforce it.
+  There would be system, and people with an account in it can login on it. Based on his username or something, the system administrator should enforce that for that user, some of the files are available.
+\end{itemize}
+
+\section*{Subject(principle),Object(resources),Action}
+
+Matrix:
+Here we have a matrix with columns as objects, and rows as subjects(users). The matrix simply indicates the permission each user has over the files(objects).
+
+% DRAW THE MATRIX
+
+Suppose user 2 wants to read file 3, the matrix says only write, so he cant read file 3. This Matrix is simply to maintain access control. \\ 
+This is not an efficient way of maintaining access control - \textbf{Viru} \\
+
+A more systematic way to maintain these permissions is by creating an access control list, for each file s list of the permissions each user have on it.
+The list can also be maintained capability wise, that is a list of permissions of particular user one every file. \\
+
+\subsection*{Confused deputy problem}
+A compiler has read for
+
+\subsubsection*{solution}
+Capability-wise list is safer because ... hmm... not sure 
+
 \end{document}
