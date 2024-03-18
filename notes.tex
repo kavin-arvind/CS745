@@ -1562,4 +1562,29 @@ A compiler has read for
 \subsubsection*{solution}
 Capability-wise list is safer because ... hmm... not sure 
 
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{16}{
+\begin{center}  
+    \huge Lecture - 16 \\
+    \Large Topic: DAC and MAC
+\end{center}
+}
+
+\section*{ACM(access control matrix)}
+This we have seen last class that permissions of every file and every user are stored in a matrix.
+
+\section*{ACL(Access control list)}
+This is a big list which 
+
+\section*{Confidentiality bases access control model}
+Some of such models are:
+\subsection*{Bella La Pudela model(BLP)}
+So we have subjects(users) $S$, and objects(files) $O$. Now, we have different levels of secracy of an object. They are - top secret, secret, confidential, and unclassified(public). Eg- some persons email is confidential, asc report is secret, and some other very important thing is top secret.
+These 4 categoried can be given to the objects. Then we assign a clearence label of a particular subject i.e, what all level files can he/she wants. Now, if a person has clearence level of top secret, then he littrally can see any resources they want. Coming down the heirarchy, the resources will be limited.
+This kind of policy is called ``NO READS UP'', i.e a person can't read files of higher sensitive information than their clearence level. Here, for writing, we follow something called ``NO WRITES UP'' where you can't write files of lower priveldge level. Thus, here, even though a public writes on a secret file, it won't be able to be read by other public people.
+Thus confidentiality is maintained. This may seem stupid as a public person has access to change secret info. But here, we don't care about other things, and we only care about confidentiality.
+
+\subsection*{Integrity}
+In the previous method, we just implement ``NO WRITES UP'' and ``NO READS DOWN''. This can be observed to ensure integrity, i.e, un-authorised people can't write on secret files.
+
 \end{document}
