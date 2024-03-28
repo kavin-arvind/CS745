@@ -1587,4 +1587,40 @@ Thus confidentiality is maintained. This may seem stupid as a public person has 
 \subsection*{Integrity}
 In the previous method, we just implement ``NO WRITES UP'' and ``NO READS DOWN''. This can be observed to ensure integrity, i.e, un-authorised people can't write on secret files.
 
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{18}{
+\begin{center}  
+    \huge Lecture - 18 \\
+    \Large Topic: DAC and MAC
+\end{center}
+}
+
+Previous class we discussed about information flow. There, we imagine a machine giving output according to input, and knowing the output, will we be able to find the inputs or not was the question.
+
+\section*{Lattice based information flow model}
+Here, there is a direction of information flow, and based on whether its legitimate or not, etc, we can model it as a latice. We construct a partial order where the directed edges indicates the legitimate flow of information. Eg, if $x \le y$, then its legitimate if information flow happens from $x$ to $y$.
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/partial_order.jpg}
+  \caption*{Partial order}
+\end{figure}
+We define two operators in latice, namely lowest upper bound ($\oplus$), and greatest lower bound ($\oplus$).
+
+\subsection*{Example}
+Say we write $y = x+z, p = y + t$, so there is a info flow from $x \rightarrow y(x \le y)$, $z \rightarrow y(z \le y)$ but, there is no info flow from $y \rightarrow p$ \footnote{This is because, there would have been a value of y which we know, but after its over written by $x$ and $z$. So now using $p$, we can infer only about the new value, and not the previous one.}.
+
+Some of the properties of this model are :-
+\begin{enumerate}
+  \item reflexive ($A \le A$)
+  \item transitive. If info flows from A to B, and B to C, we can say it flows from A to C.
+  \item Anti-Symmetric. If info flows from A to B, and B to A, only possibility is that $A = B$.
+\end{enumerate}
+
+\section*{RWFM}
+Its read write flow model.
+
+\section*{Information Leaking}
+What if the algorithm is correct, but its implemented wrongly which leads to information leakage. This is called a Bug. We can identify this by methods like Static Analysis. We can dry run(i.e, mentally run it and see for implementation bugs) the code.
+
+
 \end{document}
