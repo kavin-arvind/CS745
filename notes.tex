@@ -6,6 +6,7 @@
 % \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{hyperref}
 \usepackage{amstext}
 \usepackage{mdframed}
 \usepackage{graphicx}
@@ -1639,5 +1640,44 @@ What if the algorithm is correct, but its implemented wrongly which leads to inf
         \end{enumerate}
   \item 21 bits
 \end{enumerate}
+
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{20}{
+\begin{center}  
+    \huge Lecture - 20 \\
+    \Large Topic: Browser Security
+\end{center}
+}
+
+Mostly, whatever website you login to, its asks for either its own login, or authentication, or google's account, etc. So, we believe google, facebook to keep our login passwords safely, and so we get in through google credentials. So now, what is the conversation, or policy between google and that particular website?
+
+Google gives an API, and whichever website uses it, google lends its authentication to it. Also here, google is a witness for your activites in the website. It actually, now can see how many times you logged in, etc and so it can give suggestions accordingly.
+
+\section*{Cookies}
+Its a mechanism to not ask the user again and again for our preferences. Eg- if you choose your preferred language, it'll be stored in cookie, and the next time you login, it knows the preference. Cookie, is a file, stored in a browser side to store such things. It may also contain your passwords. So is it possible for it to get stolen?
+\begin{itemize}
+  \item If we use a shared computer, since the cookie is stored in the computer only, if another user uses it, it can get leaked.
+\end{itemize}
+Cookies are encrypted today to avoid the stealing.
+
+Though they are encrypted, there are some ways to break it. They are
+\subsection*{XSS(cross site scripting)}
+its a type of computer vulnerability typically executed with the help of web applications through breaches in user's web browser. Eg- if some website takes input, you can input a javascript code which modifies the javascript of the website and thus crashing it.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.75\linewidth]{images/XSS.png}
+\end{figure}
+To avoid this, if we see some script like input, we ignore it. Nowadays, most websited so this, but an unaware web developer could be a harm for its user.
+
+\subsection*{Reflected XSS}
+There are two methods of providing the input to the website. They are GET and POST methods.
+
+In GET method, the information is directly given in the url and the web's code reads from the url and takes it as input and run accordingly. Eg- instead of searching for the string ``data security''  in google's tab, you can direcly give the url you're seaching for itself as \href{https://www.google.com/search?q=data+security}{https://www.google.com/search?q=data+security}.
+
+So, in this method, lets say a hacker gives you a link with input as a javascript, then if you click on it, the website starts working accoding to the hacker's contol.
+
+\subsection*{CSRF}
+Typical practical scenario will be like, if you login in some website though your username, pwd, etc and you log out, the session should expire and authentication should end. But if csrf is not handled properly and you click back button, from your history, you can see again your personal data in website even after logging out.
 
 \end{document}
