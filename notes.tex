@@ -13,6 +13,11 @@
 \usepackage{wrapfig}
 \usepackage{caption}
 \usepackage{multicol}
+
+\newtheorem{theorem}{Theorem}[section] % This numbers theorems by section
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 % \usepackage{bbm}
 \makeatletter
 \@ifundefined{date}{}{\date{}}
@@ -1552,7 +1557,7 @@ Here we have a matrix with columns as objects, and rows as subjects(users). The 
 % DRAW THE MATRIX
 
 Suppose user 2 wants to read file 3, the matrix says only write, so he cant read file 3. This Matrix is simply to maintain access control. \\ 
-This is not an efficient way of maintaining access control - \textbf{Viru} \\
+This is not an efficient way of maintaining access control - \textbf{Sir} \\
 
 A more systematic way to maintain these permissions is by creating an access control list, for each file s list of the permissions each user have on it.
 The list can also be maintained capability wise, that is a list of permissions of particular user one every file. \\
@@ -1680,4 +1685,48 @@ So, in this method, lets say a hacker gives you a link with input as a javascrip
 \subsection*{CSRF}
 Typical practical scenario will be like, if you login in some website though your username, pwd, etc and you log out, the session should expire and authentication should end. But if csrf is not handled properly and you click back button, from your history, you can see again your personal data in website even after logging out.
 
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{22}{
+\begin{center}  
+    \huge Lecture - 22 \\
+    \Large Topic: Malwares
+\end{center}
+}
+
+Since every laptop nowadays are connected to internet, malware is common to occur. It means the ability to sneak in another person's system.
+Malicious code is a code aimed to harm a system's usage or the user.
+Categories:
+\begin{itemize}
+  \item Virus
+  \item Worm
+  \item Backdoor
+  \item Trojans - spying and entering a system with some other identity. Almost 70\% of the malware attacks are trojans only.
+\end{itemize}
+
+There is a requirement to avoid these as these attacks may be as costly as billions of USD. From the past malware attack data, we observe that though number of such attacks are growing exponentially, the total number of distict families of attacks grow only linealy with time. This is a good news that we just need to prevent attacks of a family.
+
+Phishing is another common attack where spam emails are sent to steal login credentials of users.
+
+\section*{Modelling Malware}
+A computer virus is a program that can infect ... - a formal defenition was given(refer to slides).
+\paragraph*{}
+Possibility of a virus infection is based on the theory of self-reproducing automata and not based on system damage or anything.
+
+\begin{theorem}
+  For every defence mechanism, there exists a virus that escapes it and for every virus, there exists a defence mechanism for it.
+\end{theorem}
+
+Key defenitions:
+\begin{itemize}
+  \item family- all viruses having a same code base belong to same family
+  \item variant- virusus which are just slightly modified from others.
+\end{itemize}
+
+\section*{Methods to prevent virus}
+Using signatures for programs. We can allow only programs of known signature to run and not run otherwise. The problem with this is that the number of virus is also so much and checking them one by one would be a very difficult job.
+In fact, virus detectors like McFree, etc have a full database of signatures of viruses and it checks regularly.
+
+A better option would be to detect malware families and not individual instances. If you see for individual instances is that, if you just add a ``no operation statement'' in your code, the signature, file size, and everything would change though the behaviour would be exactly the same.
+
+To detect code pattens, AI could be used which learnt already existing virus's code bases, and identify the new variant viruses.
 \end{document}
