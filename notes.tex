@@ -1490,7 +1490,9 @@ Also, the certification comes with a validity period, and should be renewed afte
 \\
 There is no one centralised CA. The main CA is divided into multiple sub CAs. This is done as if the centralised CA is compromised, then all the data in the world is at risk.
 \\
-This kind of security is used in SSL, TSL Protocols.
+This kind of security is used in SSL, TSL Protocols.\\
+SSL - Secure socket Layer \\
+TLS - Transport layer security
 \\
 We have four levels of security:
 \begin{itemize}
@@ -1686,6 +1688,60 @@ So, in this method, lets say a hacker gives you a link with input as a javascrip
 Typical practical scenario will be like, if you login in some website though your username, pwd, etc and you log out, the session should expire and authentication should end. But if csrf is not handled properly and you click back button, from your history, you can see again your personal data in website even after logging out.
 
 \clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{21}{
+\begin{center}  
+    \huge Lecture - 21 \\
+    \Large Control Flow
+\end{center}
+}
+
+\begin{itemize}
+  \item Control Flow Integrity Check (CFI)
+  \item Malware Detection
+  \item Side Channel Based Attacks
+\end{itemize}
+
+\section*{Malware Detection}
+Signatures
+
+\section*{Behaviour}
+Behaviour of a program is .
+
+\section*{Side Channel Based Attacks}
+Ciphers used today are vulnerable after quantum computers. Post Quantum Cryptography is lattice based cryptography. \\
+Hardware is designed to offer maximum performance while consuming minimal power. Earlier performance was the primary goal, but these days it is minimal power consumption. \\
+
+% \begin{figure}[h!]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{ss.jpg}
+%   \caption*{Partial order}
+% \end{figure}
+
+Performance increase per year vs time \\
+\begin{itemize}
+  \item 20\% /year - before 1985/86 
+  \item 50\% /year - 1985 - 2003/2004 (motto : faster is better) 
+  \item 20\% /year - after 2003 (motto : more is better) 
+\end{itemize}
+
+But memory accesses are significantly slow (about 100 times slower) which grew at about 6\%/year. Caches were introduced to enhance memory access.
+\\
+It was believed Control flow was the bottleneck. 
+Actually, while a program runs, 10\% of the code executes for 90\% time. 
+This can be prevented by speculating and predicting the direction after a conditional. \\
+
+Once the control flow is fixed, data flow became the bottle neck.
+
+\section*{Various performance enhancements:}
+\begin{itemize}
+  \item Speculation of branch direction.
+  \item Speculation of Data.
+  \item Out of order execution.
+  \item Use of Caches.
+  \item Multithreaded architecture support.
+\end{itemize}
+
+\clearpage% Lecture 13 on 7 - 03 - 2024
 \noindent\tbox{22}{
 \begin{center}  
     \huge Lecture - 22 \\
@@ -1729,4 +1785,43 @@ In fact, virus detectors like McFree, etc have a full database of signatures of 
 A better option would be to detect malware families and not individual instances. If you see for individual instances is that, if you just add a ``no operation statement'' in your code, the signature, file size, and everything would change though the behaviour would be exactly the same.
 
 To detect code pattens, AI could be used which learnt already existing virus's code bases, and identify the new variant viruses.
+
+\clearpage% Lecture 13 on 7 - 03 - 2024
+\noindent\tbox{23}{
+\begin{center}  
+    \huge Lecture - 23 \\
+    \Large Topic: Slides revision in moodle
+\end{center}
+}
+
+\begin{itemize}
+  \item[Trust anchor: ] The root of CA is completely trusted to be true, and its trust cannot be derived. It is assumed to be genuine.
+  \item[UI/UX symbols: ] if its green, its secure. If it reads ``not secure!'' in grey, then it means it was once trusted, and maybe the certificate has expired. ``not secure'' in red means it was never trusted.
+  \item[Wildcard DC: ] Wildcard Digital certificate is given for a whole domain rather than individual websites. Eg- if ``*iitb.ac.in'' is verified, anyone having website in that domain is verified.
+  \item[Types: ] Certificate pinning or stapling- Some certificates are hardcoded and cannot be revoked. Eg - hardware devices, Proof carrying code, some mobile apps, etc.
+  \item[] 
+\end{itemize}
+
+\section*{CRL (Certificate Revocation List)}
+A CRL will list all the certificates that have been either suspended or revoked. CRLs are published by Certificate Authorities. Generally, the root certificate for a Certificate Authority will specify the location of that CA's CRL.
+
+\section*{OCSP (Online Certificate Status Protocol)}
+As you login to a website, first we need to check its authenticity with the CA. Checking this can be done is OCSP protocol.
+OCSP Stapling improves performance by positioning a digitally-signed and time-stamped version of the OCSP response directly on the webserver.  This stapled OCSP response is then refreshed at predefined intervals set by the CA.  The stapled OCSP response allows the web server to include the OCSP response within the initial SSL handshake, without the need for the user to make a separate external connection to the CA.
+OCSP (Online Certificate Status Protocol) is one of two common schemes used to maintain the security.
+\\ \\
+If the server's certificate returns true upon OCSP (Online Certificate Status Protocol) check,
+it means that the certificate is valid according to the issuing Certificate Authority (CA). The termination of the protocol would typically occur during the SSL/TLS handshake process, specifically during the Certificate Verification step.
+During the SSL/TLS handshake, after the client receives the server's certificate, it performs a series of checks to verify the certificate's authenticity, including checking the certificate's expiration date, verifying the signature, and optionally checking the certificate's revocation status using OCSP or Certificate Revocation Lists (CRLs). If the OCSP check returns true, indicating that the certificate has not been revoked, the certificate is considered valid, and the handshake can proceed.
+
+OCSP is usually used in transactions where the validity of digital certificates needs to be verified in real-time. This is particularly important in situations where immediate assurance of a certificate's validity is required, such as in online banking, e-commerce transactions, secure email communication, and accessing secure websites (HTTPS). By checking the certificate's status via OCSP, parties involved in the transaction can ensure that the certificate has not been revoked since it was issued, thereby enhancing the security of the communication channel.
+
+\section*{Perspectives}
+Perspectives is a decentralized approach to securely identifying Internet
+servers. 
+Network notaries are like CAs found across the internet and carry the digital ceritficates of various websites. Once a user accesses a website the browser verifies the digital certificate of the website and compares it with the previous certificates tracked by the trusted network notaries. If they differ then we know there is a Man in the Middle attack.
+
+\section*{Certificate Pinning by OS/Browser}
+Explanation: Certificate pinning is a security mechanism used by web browsers, operating systems, and applications to prevent man-in-the-middle attacks and certificate spoofing. By pinning (or associating) a website's digital certificate with its public key or cryptographic hash, the browser or OS can ensure that subsequent connections to the website only accept certificates signed by the pinned key. This helps protect against attacks where an attacker presents a fraudulent certificate signed by a compromised or rogue CA.
+
 \end{document}
